@@ -831,8 +831,6 @@ SMOStepType NetworkSyncManager::TranslateStepType(int score)
 		return SMOST_AVOIDMINE;
 	case TNS_Miss:
 		return SMOST_MISS;
-	case TNS_W5:
-		return SMOST_W5;
 	case TNS_W4:
 		return SMOST_W4;
 	case TNS_W3:

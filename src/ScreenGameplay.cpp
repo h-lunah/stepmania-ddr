@@ -1737,8 +1737,7 @@ void ScreenGameplay::Update( float fDeltaTime )
 		{
 			hs = HealthState_Hot;
 		}
-		else if( GAMESTATE->GetPlayerFailType(pi->GetPlayerState()) != FailType_Off &&
-			pi->m_pLifeMeter && pi->m_pLifeMeter->IsInDanger() )
+		else if( pi->m_pLifeMeter && pi->m_pLifeMeter->IsInDanger() )
 		{
 			hs = HealthState_Danger;
 		}

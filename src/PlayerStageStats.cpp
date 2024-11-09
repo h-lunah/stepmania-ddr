@@ -309,7 +309,6 @@ int PlayerStageStats::GetLessonScoreActual() const
 		switch( tns )
 		{
 			case TNS_AvoidMine:
-			case TNS_W5:
 			case TNS_W4:
 			case TNS_W3:
 			case TNS_W2:
@@ -555,7 +554,7 @@ int PlayerStageStats::GetComboAtStartOfStage() const
 
 bool PlayerStageStats::FullComboOfScore( TapNoteScore tnsAllGreaterOrEqual ) const
 {
-	ASSERT( tnsAllGreaterOrEqual >= TNS_W5 );
+	ASSERT( tnsAllGreaterOrEqual >= TNS_W4 );
 	ASSERT( tnsAllGreaterOrEqual <= TNS_W1 );
    
   //if we've set MissCombo to anything besides 0, it's not a full combo
@@ -595,7 +594,7 @@ TapNoteScore PlayerStageStats::GetBestFullComboTapNoteScore() const
 {
 	// Optimization opportunity: ...
 	// (seriously? -aj)
-	for( TapNoteScore i=TNS_W1; i >= TNS_W5; enum_add(i,-1))
+	for( TapNoteScore i=TNS_W1; i >= TNS_W4; enum_add(i,-1))
 	{
 		if( FullComboOfScore(i) )
 			return i;

@@ -24,6 +24,18 @@ static const char *DrainTypeNames[] = {
 	"Normal",
 	"NoRecover",
 	"SuddenDeath",
+	"Class",
+	"Flare1",
+	"Flare2",
+	"Flare3",
+	"Flare4",
+	"Flare5",
+	"Flare6",
+	"Flare7",
+	"Flare8",
+	"Flare9",
+	"FlareEX",
+	"FloatingFlare"
 };
 XToString( DrainType );
 XToLocalizedString( DrainType );
@@ -220,6 +232,42 @@ void PlayerOptions::GetMods( vector<RString> &AddTo, bool bForceNoteSkin ) const
 					break;
 				case DrainType_SuddenDeath:
 					AddTo.push_back("SuddenDeath");
+					break;
+				case DrainType_Class:
+					AddTo.push_back("Class");
+					break;
+				case DrainType_Flare1:
+					AddTo.push_back("Flare1");
+					break;
+				case DrainType_Flare2:
+					AddTo.push_back("Flare2");
+					break;
+				case DrainType_Flare3:
+					AddTo.push_back("Flare3");
+					break;
+				case DrainType_Flare4:
+					AddTo.push_back("Flare4");
+					break;
+				case DrainType_Flare5:
+					AddTo.push_back("Flare5");
+					break;
+				case DrainType_Flare6:
+					AddTo.push_back("Flare6");
+					break;
+				case DrainType_Flare7:
+					AddTo.push_back("Flare7");
+					break;
+				case DrainType_Flare8:
+					AddTo.push_back("Flare8");
+					break;
+				case DrainType_Flare9:
+					AddTo.push_back("Flare9");
+					break;
+				case DrainType_FlareEX:
+					AddTo.push_back("FlareEX");
+					break;
+				case DrainType_FloatingFlare:
+					AddTo.push_back("FloatingFlare");
 					break;
 				case DrainType_Normal:
 				default:
@@ -702,6 +750,18 @@ bool PlayerOptions::FromOneModString( const RString &sOneMod, RString &sErrorOut
 	else if( sBit == "norecover" || sBit == "power-drop" ) { m_DrainType= DrainType_NoRecover; }
 	else if( sBit == "suddendeath" || sBit == "death" ) { m_DrainType= DrainType_SuddenDeath; }
 	else if( sBit == "normal-drain" ) { m_DrainType= DrainType_Normal; }
+	else if( sBit == "class" ) { m_DrainType = DrainType_Class; }
+	else if( sBit == "flare-1" ) { m_DrainType = DrainType_Flare1; }
+	else if( sBit == "flare-2" ) { m_DrainType = DrainType_Flare2; }
+	else if( sBit == "flare-3" ) { m_DrainType = DrainType_Flare3; }
+	else if( sBit == "flare-4" ) { m_DrainType = DrainType_Flare4; }
+	else if( sBit == "flare-5" ) { m_DrainType = DrainType_Flare5; }
+	else if( sBit == "flare-6" ) { m_DrainType = DrainType_Flare6; }
+	else if( sBit == "flare-7" ) { m_DrainType = DrainType_Flare7; }
+	else if( sBit == "flare-8" ) { m_DrainType = DrainType_Flare8; }
+	else if( sBit == "flare-9" ) { m_DrainType = DrainType_Flare9; }
+	else if( sBit == "flare-ex" ) { m_DrainType = DrainType_FlareEX; }
+	else if( sBit == "floating-flare" ) { m_DrainType = DrainType_FloatingFlare; }
 	else if( sBit == "boost" )				SET_FLOAT( fAccels[ACCEL_BOOST] )
 	else if( sBit == "brake" || sBit == "land" )		SET_FLOAT( fAccels[ACCEL_BRAKE] )
 	else if( sBit.find("wave") != sBit.npos)
@@ -996,7 +1056,6 @@ bool PlayerOptions::FromOneModString( const RString &sOneMod, RString &sErrorOut
 	else if( sBit == "bmrize" )				m_bTransforms[TRANSFORM_BMRIZE] = on;
 	else if( sBit == "skippy" )				m_bTransforms[TRANSFORM_SKIPPY] = on;
 	else if( sBit == "mines" )				m_bTransforms[TRANSFORM_MINES] = on;
-	else if( sBit == "attackmines" )			m_bTransforms[TRANSFORM_ATTACKMINES] = on;
 	else if( sBit == "echo" )				m_bTransforms[TRANSFORM_ECHO] = on;
 	else if( sBit == "stomp" )				m_bTransforms[TRANSFORM_STOMP] = on;
 	else if( sBit == "planted" )				m_bTransforms[TRANSFORM_PLANTED] = on;
@@ -1004,8 +1063,6 @@ bool PlayerOptions::FromOneModString( const RString &sOneMod, RString &sErrorOut
 	else if( sBit == "twister" )				m_bTransforms[TRANSFORM_TWISTER] = on;
 	else if( sBit == "holdrolls" )				m_bTransforms[TRANSFORM_HOLDROLLS] = on;
 	else if( sBit == "nojumps" )				m_bTransforms[TRANSFORM_NOJUMPS] = on;
-	else if( sBit == "nohands" )				m_bTransforms[TRANSFORM_NOHANDS] = on;
-	else if( sBit == "noquads" )				m_bTransforms[TRANSFORM_NOQUADS] = on;
 	else if ( sBit.find("reverse") != sBit.npos)
 	{
 	    if( sBit == "reverse" )				SET_FLOAT( fScrolls[SCROLL_REVERSE] )
@@ -1027,11 +1084,6 @@ bool PlayerOptions::FromOneModString( const RString &sOneMod, RString &sErrorOut
 	else if( sBit == "cross" )				SET_FLOAT( fScrolls[SCROLL_CROSS] )
 	else if( sBit == "centered" )				SET_FLOAT( fScrolls[SCROLL_CENTERED] )
 	else if( sBit == "noholds" )				m_bTransforms[TRANSFORM_NOHOLDS] = on;
-	else if( sBit == "norolls" )				m_bTransforms[TRANSFORM_NOROLLS] = on;
-	else if( sBit == "nomines" )				m_bTransforms[TRANSFORM_NOMINES] = on;
-	else if( sBit == "nostretch" )				m_bTransforms[TRANSFORM_NOSTRETCH] = on;
-	else if( sBit == "nolifts" )				m_bTransforms[TRANSFORM_NOLIFTS] = on;
-	else if( sBit == "nofakes" )				m_bTransforms[TRANSFORM_NOFAKES] = on;
 	else if( sBit.find("dark") != sBit.npos )
 	{
 	    if( sBit == "dark" )				SET_FLOAT( fDark )

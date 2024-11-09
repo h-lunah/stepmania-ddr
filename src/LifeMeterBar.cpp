@@ -89,6 +89,18 @@ void LifeMeterBar::Load( const PlayerState *pPlayerState, PlayerStageStats *pPla
 			m_fLifePercentage = INITIAL_VALUE;
 			break;
 			/* These types only go down, so they always start at full. */
+		case DrainType_Class:
+		case DrainType_Flare1:
+		case DrainType_Flare2:
+		case DrainType_Flare3:
+		case DrainType_Flare4:
+		case DrainType_Flare5:
+		case DrainType_Flare6:
+		case DrainType_Flare7:
+		case DrainType_Flare8:
+		case DrainType_Flare9:
+		case DrainType_FlareEX:
+		case DrainType_FloatingFlare:
 		case DrainType_NoRecover:
 		case DrainType_SuddenDeath:
 			m_fLifePercentage = 1.0f;	break;
@@ -97,8 +109,8 @@ void LifeMeterBar::Load( const PlayerState *pPlayerState, PlayerStageStats *pPla
 	}
 
 	// Change life difficulty to really easy if merciful beginner on
-	m_bMercifulBeginnerInEffect = 
-		GAMESTATE->m_PlayMode == PLAY_MODE_REGULAR  &&  
+	m_bMercifulBeginnerInEffect =
+		GAMESTATE->m_PlayMode == PLAY_MODE_REGULAR  &&
 		GAMESTATE->IsPlayerEnabled( pPlayerState )  &&
 		GAMESTATE->m_pCurSteps[pn]->GetDifficulty() == Difficulty_Beginner  &&
 		PREFSMAN->m_bMercifulBeginner;
@@ -109,30 +121,311 @@ void LifeMeterBar::Load( const PlayerState *pPlayerState, PlayerStageStats *pPla
 void LifeMeterBar::ChangeLife( TapNoteScore score )
 {
 	float fDeltaLife=0.f;
-	switch( score )
-	{
-	DEFAULT_FAIL( score );
-	case TNS_W1:		fDeltaLife = m_fLifePercentChange.GetValue(SE_W1);	break;
-	case TNS_W2:		fDeltaLife = m_fLifePercentChange.GetValue(SE_W2);	break;
-	case TNS_W3:		fDeltaLife = m_fLifePercentChange.GetValue(SE_W3);	break;
-	case TNS_W4:		fDeltaLife = m_fLifePercentChange.GetValue(SE_W4);	break;
-	case TNS_W5:		fDeltaLife = m_fLifePercentChange.GetValue(SE_W5);	break;
-	case TNS_Miss:		fDeltaLife = m_fLifePercentChange.GetValue(SE_Miss);	break;
-	case TNS_HitMine:	fDeltaLife = m_fLifePercentChange.GetValue(SE_HitMine);	break;
-	case TNS_None:		fDeltaLife = m_fLifePercentChange.GetValue(SE_Miss);	break;
-	case TNS_CheckpointHit:	fDeltaLife = m_fLifePercentChange.GetValue(SE_CheckpointHit);	break;
-	case TNS_CheckpointMiss:fDeltaLife = m_fLifePercentChange.GetValue(SE_CheckpointMiss);	break;
-	}
-
 	// this was previously if( IsHot()  &&  score < TNS_GOOD ) in 3.9... -freem
 	if(PREFSMAN->m_HarshHotLifePenalty && IsHot()  &&  fDeltaLife < 0)
 		fDeltaLife = min( fDeltaLife, -0.10f );		// make it take a while to get back to "hot"
 
-	switch(m_pPlayerState->m_PlayerOptions.GetSong().m_DrainType)
+	DrainType dtype = m_pPlayerState->m_PlayerOptions.GetSong().m_DrainType;
+	switch(dtype)
 	{
 	DEFAULT_FAIL(m_pPlayerState->m_PlayerOptions.GetSong().m_DrainType);
 	case DrainType_Normal:
+		switch (score)
+		{
+		DEFAULT_FAIL(score);
+		case TNS_W1:		fDeltaLife = m_fLifePercentChange.GetValue(SE_W1);	break;
+		case TNS_W2:		fDeltaLife = m_fLifePercentChange.GetValue(SE_W2);	break;
+		case TNS_W3:		fDeltaLife = m_fLifePercentChange.GetValue(SE_W3);	break;
+		case TNS_W4:		fDeltaLife = m_fLifePercentChange.GetValue(SE_W4);	break;
+		case TNS_Miss:		fDeltaLife = m_fLifePercentChange.GetValue(SE_Miss);	break;
+		case TNS_HitMine:	fDeltaLife = m_fLifePercentChange.GetValue(SE_HitMine);	break;
+		case TNS_None:		fDeltaLife = m_fLifePercentChange.GetValue(SE_Miss);	break;
+		case TNS_CheckpointHit:	fDeltaLife = m_fLifePercentChange.GetValue(SE_CheckpointHit);	break;
+		case TNS_CheckpointMiss:fDeltaLife = m_fLifePercentChange.GetValue(SE_CheckpointMiss);	break;
+		}
 		break;
+	case DrainType_Class:
+		switch (score)
+		{
+		DEFAULT_FAIL(score);
+		case TNS_W1:		fDeltaLife = m_fLifePercentChange.GetValue(SE_W1);	break;
+		case TNS_W2:		fDeltaLife = m_fLifePercentChange.GetValue(SE_W2);	break;
+		case TNS_W3:		fDeltaLife = m_fLifePercentChange.GetValue(SE_W3);	break;
+		case TNS_W4:		fDeltaLife = m_fLifePercentChange.GetValue(SE_W4);	break;
+		case TNS_Miss:		fDeltaLife = m_fLifePercentChange.GetValue(SE_Miss);	break;
+		case TNS_HitMine:	fDeltaLife = m_fLifePercentChange.GetValue(SE_HitMine);	break;
+		case TNS_None:		fDeltaLife = m_fLifePercentChange.GetValue(SE_Miss);	break;
+		case TNS_CheckpointHit:	fDeltaLife = m_fLifePercentChange.GetValue(SE_CheckpointHit);	break;
+		case TNS_CheckpointMiss:fDeltaLife = m_fLifePercentChange.GetValue(SE_CheckpointMiss);	break;
+		}
+		fDeltaLife*=0.5f; break;
+	case DrainType_Flare1:
+		switch(score)
+		{
+		DEFAULT_FAIL(score);
+		case TNS_W1: fDeltaLife = FlareJudgmentsW1[0]; break;
+		case TNS_W2: fDeltaLife = FlareJudgmentsW2[0]; break;
+		case TNS_W3: fDeltaLife = FlareJudgmentsW3[0]; break;
+		case TNS_W4: fDeltaLife = FlareJudgmentsW4[0]; break;
+		case TNS_Miss: fDeltaLife = FlareJudgmentsMiss[0]; break;
+		case TNS_HitMine: fDeltaLife = FlareJudgmentsMiss[0]; break;
+		case TNS_None: fDeltaLife = FlareJudgmentsW1[0]; break;
+		case TNS_CheckpointHit: fDeltaLife = FlareJudgmentsW1[0]; break;
+		case TNS_CheckpointMiss: fDeltaLife = FlareJudgmentsW1[0]; break;
+		}
+		break;
+	case DrainType_Flare2:
+		switch(score)
+		{
+		DEFAULT_FAIL(score);
+		case TNS_W1: fDeltaLife = FlareJudgmentsW1[1]; break;
+		case TNS_W2: fDeltaLife = FlareJudgmentsW2[1]; break;
+		case TNS_W3: fDeltaLife = FlareJudgmentsW3[1]; break;
+		case TNS_W4: fDeltaLife = FlareJudgmentsW4[1]; break;
+		case TNS_Miss: fDeltaLife = FlareJudgmentsMiss[1]; break;
+		case TNS_HitMine: fDeltaLife = FlareJudgmentsMiss[1]; break;
+		case TNS_None: fDeltaLife = FlareJudgmentsW1[1]; break;
+		case TNS_CheckpointHit: fDeltaLife = FlareJudgmentsW1[1]; break;
+		case TNS_CheckpointMiss: fDeltaLife = FlareJudgmentsW1[1]; break;
+		}
+		break;
+	case DrainType_Flare3:
+		switch(score)
+		{
+		DEFAULT_FAIL(score);
+		case TNS_W1: fDeltaLife = FlareJudgmentsW1[2]; break;
+		case TNS_W2: fDeltaLife = FlareJudgmentsW2[2]; break;
+		case TNS_W3: fDeltaLife = FlareJudgmentsW3[2]; break;
+		case TNS_W4: fDeltaLife = FlareJudgmentsW4[2]; break;
+		case TNS_Miss: fDeltaLife = FlareJudgmentsMiss[2]; break;
+		case TNS_HitMine: fDeltaLife = FlareJudgmentsMiss[2]; break;
+		case TNS_None: fDeltaLife = FlareJudgmentsW1[2]; break;
+		case TNS_CheckpointHit: fDeltaLife = FlareJudgmentsW1[2]; break;
+		case TNS_CheckpointMiss: fDeltaLife = FlareJudgmentsW1[2]; break;
+		}
+		break;
+	case DrainType_Flare4:
+		switch(score)
+		{
+		DEFAULT_FAIL(score);
+		case TNS_W1: fDeltaLife = FlareJudgmentsW1[3]; break;
+		case TNS_W2: fDeltaLife = FlareJudgmentsW2[3]; break;
+		case TNS_W3: fDeltaLife = FlareJudgmentsW3[3]; break;
+		case TNS_W4: fDeltaLife = FlareJudgmentsW4[3]; break;
+		case TNS_Miss: fDeltaLife = FlareJudgmentsMiss[3]; break;
+		case TNS_HitMine: fDeltaLife = FlareJudgmentsMiss[3]; break;
+		case TNS_None: fDeltaLife = FlareJudgmentsW1[3]; break;
+		case TNS_CheckpointHit: fDeltaLife = FlareJudgmentsW1[3]; break;
+		case TNS_CheckpointMiss: fDeltaLife = FlareJudgmentsW1[3]; break;
+		}
+		break;
+	case DrainType_Flare5:
+		switch(score)
+		{
+		DEFAULT_FAIL(score);
+		case TNS_W1: fDeltaLife = FlareJudgmentsW1[4]; break;
+		case TNS_W2: fDeltaLife = FlareJudgmentsW2[4]; break;
+		case TNS_W3: fDeltaLife = FlareJudgmentsW3[4]; break;
+		case TNS_W4: fDeltaLife = FlareJudgmentsW4[4]; break;
+		case TNS_Miss: fDeltaLife = FlareJudgmentsMiss[4]; break;
+		case TNS_HitMine: fDeltaLife = FlareJudgmentsMiss[4]; break;
+		case TNS_None: fDeltaLife = FlareJudgmentsW1[4]; break;
+		case TNS_CheckpointHit: fDeltaLife = FlareJudgmentsW1[4]; break;
+		case TNS_CheckpointMiss: fDeltaLife = FlareJudgmentsW1[4]; break;
+		}
+		break;
+	case DrainType_Flare6:
+		switch(score)
+		{
+		DEFAULT_FAIL(score);
+		case TNS_W1: fDeltaLife = FlareJudgmentsW1[5]; break;
+		case TNS_W2: fDeltaLife = FlareJudgmentsW2[5]; break;
+		case TNS_W3: fDeltaLife = FlareJudgmentsW3[5]; break;
+		case TNS_W4: fDeltaLife = FlareJudgmentsW4[5]; break;
+		case TNS_Miss: fDeltaLife = FlareJudgmentsMiss[5]; break;
+		case TNS_HitMine: fDeltaLife = FlareJudgmentsMiss[5]; break;
+		case TNS_None: fDeltaLife = FlareJudgmentsW1[5]; break;
+		case TNS_CheckpointHit: fDeltaLife = FlareJudgmentsW1[5]; break;
+		case TNS_CheckpointMiss: fDeltaLife = FlareJudgmentsW1[5]; break;
+		}
+		break;
+	case DrainType_Flare7:
+		switch(score)
+		{
+		DEFAULT_FAIL(score);
+		case TNS_W1: fDeltaLife = FlareJudgmentsW1[6]; break;
+		case TNS_W2: fDeltaLife = FlareJudgmentsW2[6]; break;
+		case TNS_W3: fDeltaLife = FlareJudgmentsW3[6]; break;
+		case TNS_W4: fDeltaLife = FlareJudgmentsW4[6]; break;
+		case TNS_Miss: fDeltaLife = FlareJudgmentsMiss[6]; break;
+		case TNS_HitMine: fDeltaLife = FlareJudgmentsMiss[6]; break;
+		case TNS_None: fDeltaLife = FlareJudgmentsW1[6]; break;
+		case TNS_CheckpointHit: fDeltaLife = FlareJudgmentsW1[6]; break;
+		case TNS_CheckpointMiss: fDeltaLife = FlareJudgmentsW1[6]; break;
+		}
+		break;
+	case DrainType_Flare8:
+		switch(score)
+		{
+		DEFAULT_FAIL(score);
+		case TNS_W1: fDeltaLife = FlareJudgmentsW1[7]; break;
+		case TNS_W2: fDeltaLife = FlareJudgmentsW2[7]; break;
+		case TNS_W3: fDeltaLife = FlareJudgmentsW3[7]; break;
+		case TNS_W4: fDeltaLife = FlareJudgmentsW4[7]; break;
+		case TNS_Miss: fDeltaLife = FlareJudgmentsMiss[7]; break;
+		case TNS_HitMine: fDeltaLife = FlareJudgmentsMiss[7]; break;
+		case TNS_None: fDeltaLife = FlareJudgmentsW1[7]; break;
+		case TNS_CheckpointHit: fDeltaLife = FlareJudgmentsW1[7]; break;
+		case TNS_CheckpointMiss: fDeltaLife = FlareJudgmentsW1[7]; break;
+		}
+		break;
+	case DrainType_Flare9:
+		switch(score)
+		{
+		DEFAULT_FAIL(score);
+		case TNS_W1: fDeltaLife = FlareJudgmentsW1[8]; break;
+		case TNS_W2: fDeltaLife = FlareJudgmentsW2[8]; break;
+		case TNS_W3: fDeltaLife = FlareJudgmentsW3[8]; break;
+		case TNS_W4: fDeltaLife = FlareJudgmentsW4[8]; break;
+		case TNS_Miss: fDeltaLife = FlareJudgmentsMiss[8]; break;
+		case TNS_HitMine: fDeltaLife = FlareJudgmentsMiss[8]; break;
+		case TNS_None: fDeltaLife = FlareJudgmentsW1[8]; break;
+		case TNS_CheckpointHit: fDeltaLife = FlareJudgmentsW1[8]; break;
+		case TNS_CheckpointMiss: fDeltaLife = FlareJudgmentsW1[8]; break;
+		}
+		break;
+	case DrainType_FlareEX:
+		switch(score)
+		{
+		DEFAULT_FAIL(score);
+		case TNS_W1: fDeltaLife = FlareJudgmentsW1[9]; break;
+		case TNS_W2: fDeltaLife = FlareJudgmentsW2[9]; break;
+		case TNS_W3: fDeltaLife = FlareJudgmentsW3[9]; break;
+		case TNS_W4: fDeltaLife = FlareJudgmentsW4[9]; break;
+		case TNS_Miss: fDeltaLife = FlareJudgmentsMiss[9]; break;
+		case TNS_HitMine: fDeltaLife = FlareJudgmentsMiss[9]; break;
+		case TNS_None: fDeltaLife = FlareJudgmentsW1[9]; break;
+		case TNS_CheckpointHit: fDeltaLife = FlareJudgmentsW1[9]; break;
+		case TNS_CheckpointMiss: fDeltaLife = FlareJudgmentsW1[9]; break;
+		}
+		break;
+	case DrainType_FloatingFlare:
+		switch(score)
+		{
+		DEFAULT_FAIL(score);
+		case TNS_W1:
+			if ( m_fLifePercentage + FlareJudgmentsW1[currFloatingFlareIndex] > 0 )
+			{
+				fDeltaLife = FlareJudgmentsW1[currFloatingFlareIndex];
+			} else {
+				if ( currFloatingFlareIndex > 0 )
+				{
+					--currFloatingFlareIndex;
+					fDeltaLife = 0;
+					SetLife(1.0f);
+					break;
+				} else fDeltaLife = FlareJudgmentsW1[currFloatingFlareIndex];
+			}
+			break;
+		case TNS_W2:
+			if ( m_fLifePercentage + FlareJudgmentsW2[currFloatingFlareIndex] > 0 )
+			{
+				fDeltaLife = FlareJudgmentsW2[currFloatingFlareIndex];
+			} else {
+				if ( currFloatingFlareIndex > 0 )
+				{
+					--currFloatingFlareIndex;
+					fDeltaLife = 0;
+					SetLife(1.0f);
+					break;
+				} else fDeltaLife = FlareJudgmentsW2[currFloatingFlareIndex];
+			}
+			break;
+		case TNS_W3:
+			if ( m_fLifePercentage + FlareJudgmentsW3[currFloatingFlareIndex] > 0 )
+			{
+				fDeltaLife = FlareJudgmentsW3[currFloatingFlareIndex];
+			} else {
+				if ( currFloatingFlareIndex > 0 )
+				{
+					--currFloatingFlareIndex;
+					fDeltaLife = 0;
+					SetLife(1.0f);
+					break;
+				} else fDeltaLife = FlareJudgmentsW3[currFloatingFlareIndex];
+			}
+			break;
+		case TNS_W4:
+			if ( m_fLifePercentage + FlareJudgmentsW4[currFloatingFlareIndex] > 0 )
+			{
+				fDeltaLife = FlareJudgmentsW4[currFloatingFlareIndex];
+			} else {
+				if (currFloatingFlareIndex > 0)
+				{
+					--currFloatingFlareIndex;
+					fDeltaLife = 0;
+					SetLife(1.0f);
+					break;
+				} else fDeltaLife = FlareJudgmentsW4[currFloatingFlareIndex];
+			}
+			break;
+		case TNS_Miss:
+			if ( m_fLifePercentage + FlareJudgmentsMiss[currFloatingFlareIndex] > 0 )
+			{
+				fDeltaLife = FlareJudgmentsMiss[currFloatingFlareIndex];
+			} else {
+				if (currFloatingFlareIndex > 0)
+				{
+					--currFloatingFlareIndex;
+					fDeltaLife = 0;
+					SetLife(1.0f);
+					break;
+				} else fDeltaLife = FlareJudgmentsMiss[currFloatingFlareIndex];
+			}
+			break;
+		case TNS_HitMine:
+			if ( m_fLifePercentage + FlareJudgmentsMiss[currFloatingFlareIndex] > 0 )
+			{
+				fDeltaLife = FlareJudgmentsMiss[currFloatingFlareIndex];
+			} else {
+				if (currFloatingFlareIndex > 0)
+				{
+					--currFloatingFlareIndex;
+					fDeltaLife = 0;
+					SetLife(1.0f);
+					break;
+				} else fDeltaLife = FlareJudgmentsMiss[currFloatingFlareIndex];
+			}
+			break;
+		case TNS_CheckpointHit:
+			if ( m_fLifePercentage + FlareJudgmentsW1[currFloatingFlareIndex] > 0 )
+			{
+				fDeltaLife = FlareJudgmentsW1[currFloatingFlareIndex];
+			} else {
+				if (currFloatingFlareIndex > 0)
+				{
+					--currFloatingFlareIndex;
+					fDeltaLife = 0;
+					SetLife(1.0f);
+					break;
+				} else fDeltaLife = FlareJudgmentsW1[currFloatingFlareIndex];
+			}
+			break;
+		case TNS_CheckpointMiss:
+			if ( m_fLifePercentage + FlareJudgmentsW1[currFloatingFlareIndex] > 0 )
+			{
+				fDeltaLife = FlareJudgmentsW1[currFloatingFlareIndex];
+			} else {
+				if (currFloatingFlareIndex > 0)
+				{
+					--currFloatingFlareIndex;
+					fDeltaLife = 0;
+					SetLife(1.0f);
+					break;
+				} else fDeltaLife = FlareJudgmentsW1[currFloatingFlareIndex];
+			}
+			break;
+		}
 	case DrainType_NoRecover:
 		fDeltaLife = min( fDeltaLife, 0 );
 		break;
@@ -151,6 +444,7 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
 {
 	float fDeltaLife=0.f;
 	DrainType dtype = m_pPlayerState->m_PlayerOptions.GetSong().m_DrainType;
+
 	switch( dtype )
 	{
 	case DrainType_Normal:
@@ -165,12 +459,169 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
 		if(PREFSMAN->m_HarshHotLifePenalty && IsHot()  &&  score == HNS_LetGo)
 			fDeltaLife = -0.10f;		// make it take a while to get back to "hot"
 		break;
+	case DrainType_Class:
+		switch( score )
+		{
+		case HNS_Held: fDeltaLife = m_fLifePercentChange.GetValue(SE_Held); break;
+		case HNS_LetGo: fDeltaLife = m_fLifePercentChange.GetValue(SE_LetGo); break;
+		case HNS_Missed: fDeltaLife = m_fLifePercentChange.GetValue(SE_Missed); break;
+        default:
+			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
+		}
+	    fDeltaLife *= 0.5f;
+	    break;
+	case DrainType_Flare1:
+		switch(score)
+		{
+		case HNS_Held: fDeltaLife = FlareJudgmentsHeld[0]; break;
+		case HNS_LetGo: fDeltaLife = FlareJudgmentsLetGo[0]; break;
+		case HNS_Missed: fDeltaLife = FlareJudgmentsHeld[0]; break;
+		default:
+			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
+		}
+		break;
+	case DrainType_Flare2:
+		switch(score)
+		{
+		case HNS_Held: fDeltaLife = FlareJudgmentsHeld[1]; break;
+		case HNS_LetGo: fDeltaLife = FlareJudgmentsLetGo[1]; break;
+		case HNS_Missed: fDeltaLife = FlareJudgmentsHeld[1]; break;
+		default:
+			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
+		}
+		break;
+	case DrainType_Flare3:
+		switch(score)
+		{
+		case HNS_Held: fDeltaLife = FlareJudgmentsHeld[2]; break;
+		case HNS_LetGo: fDeltaLife = FlareJudgmentsLetGo[2]; break;
+		case HNS_Missed: fDeltaLife = FlareJudgmentsHeld[2]; break;
+		default:
+			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
+		}
+		break;
+	case DrainType_Flare4:
+		switch(score)
+		{
+		case HNS_Held: fDeltaLife = FlareJudgmentsHeld[3]; break;
+		case HNS_LetGo: fDeltaLife = FlareJudgmentsLetGo[3]; break;
+		case HNS_Missed: fDeltaLife = FlareJudgmentsHeld[3]; break;
+		default:
+			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
+		}
+		break;
+	case DrainType_Flare5:
+		switch(score)
+		{
+		case HNS_Held: fDeltaLife = FlareJudgmentsHeld[4]; break;
+		case HNS_LetGo: fDeltaLife = FlareJudgmentsLetGo[4]; break;
+		case HNS_Missed: fDeltaLife = FlareJudgmentsHeld[4]; break;
+		default:
+			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
+		}
+		break;
+	case DrainType_Flare6:
+		switch(score)
+		{
+		case HNS_Held: fDeltaLife = FlareJudgmentsHeld[5]; break;
+		case HNS_LetGo: fDeltaLife = FlareJudgmentsLetGo[5]; break;
+		case HNS_Missed: fDeltaLife = FlareJudgmentsHeld[5]; break;
+		default:
+			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
+		}
+		break;
+	case DrainType_Flare7:
+		switch(score)
+		{
+		case HNS_Held: fDeltaLife = FlareJudgmentsHeld[6]; break;
+		case HNS_LetGo: fDeltaLife = FlareJudgmentsLetGo[6]; break;
+		case HNS_Missed: fDeltaLife = FlareJudgmentsHeld[6]; break;
+		default:
+			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
+		}
+		break;
+	case DrainType_Flare8:
+		switch(score)
+		{
+		case HNS_Held: fDeltaLife = FlareJudgmentsHeld[7]; break;
+		case HNS_LetGo: fDeltaLife = FlareJudgmentsLetGo[7]; break;
+		case HNS_Missed: fDeltaLife = FlareJudgmentsHeld[7]; break;
+		default:
+			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
+		}
+		break;
+	case DrainType_Flare9:
+		switch(score)
+		{
+		case HNS_Held: fDeltaLife = FlareJudgmentsHeld[8]; break;
+		case HNS_LetGo: fDeltaLife = FlareJudgmentsLetGo[8]; break;
+		case HNS_Missed: fDeltaLife = FlareJudgmentsHeld[8]; break;
+		default:
+			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
+		}
+	    break;
+	case DrainType_FlareEX:
+		switch(score)
+		{
+		case HNS_Held: fDeltaLife = FlareJudgmentsHeld[9]; break;
+		case HNS_LetGo: fDeltaLife = FlareJudgmentsLetGo[9]; break;
+		case HNS_Missed: fDeltaLife = FlareJudgmentsHeld[9]; break;
+		default:
+			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
+		}
+        break;
+	case DrainType_FloatingFlare:
+		switch (score)
+		{
+		case HNS_Held:
+			if ( m_fLifePercentage + FlareJudgmentsHeld[currFloatingFlareIndex] > 0 )
+			{
+				fDeltaLife = FlareJudgmentsHeld[currFloatingFlareIndex];
+			} else {
+				if (currFloatingFlareIndex > 0)
+				{
+					--currFloatingFlareIndex;
+					fDeltaLife = 0;
+					SetLife(1.0f);
+					break;
+				} else fDeltaLife = FlareJudgmentsHeld[currFloatingFlareIndex];
+			}
+			break;
+		case HNS_LetGo:
+			if ( m_fLifePercentage + FlareJudgmentsLetGo[currFloatingFlareIndex] > 0 )
+			{
+				fDeltaLife = FlareJudgmentsLetGo[currFloatingFlareIndex];
+			} else {
+				if (currFloatingFlareIndex > 0)
+				{
+					--currFloatingFlareIndex;
+					fDeltaLife = 0;
+					SetLife(1.0f);
+					break;
+				} else fDeltaLife = FlareJudgmentsLetGo[currFloatingFlareIndex];
+			}
+			break;
+		case HNS_Missed:
+			if ( m_fLifePercentage + FlareJudgmentsHeld[currFloatingFlareIndex] > 0 )
+			{
+				fDeltaLife = FlareJudgmentsHeld[currFloatingFlareIndex];
+			} else {
+				if (currFloatingFlareIndex > 0)
+				{
+					--currFloatingFlareIndex;
+					fDeltaLife = 0;
+					SetLife(1.0f);
+					break;
+				} else fDeltaLife = FlareJudgmentsHeld[currFloatingFlareIndex];
+			}
+			break;
+		}
 	case DrainType_NoRecover:
 		switch( score )
 		{
-		case HNS_Held:		fDeltaLife = +0.000f;	break;
+		case HNS_Held:		fDeltaLife = 0;	break;
 		case HNS_LetGo:	fDeltaLife = m_fLifePercentChange.GetValue(SE_LetGo);	break;
-		case HNS_Missed:		fDeltaLife = +0.000f;	break;
+		case HNS_Missed:		fDeltaLife = 0;	break;
 		default:
 			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
 		}
@@ -178,9 +629,9 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
 	case DrainType_SuddenDeath:
 		switch( score )
 		{
-		case HNS_Held:		fDeltaLife = +0;	break;
+		case HNS_Held:		fDeltaLife = 0;	break;
 		case HNS_LetGo:	fDeltaLife = -1.0f;	break;
-		case HNS_Missed:	fDeltaLife = +0;	break;
+		case HNS_Missed:	fDeltaLife = 0;	break;
 		default:
 			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
 		}
@@ -209,7 +660,7 @@ void LifeMeterBar::ChangeLife( float fDeltaLife )
 	else
 	{
 		fDeltaLife *= 1 + (float)m_iProgressiveLifebar/8 * m_iMissCombo;
-		// do this after; only successive W5/miss will increase the amount of life lost.
+		// do this after; only successive miss will increase the amount of life lost.
 		m_iMissCombo++;
 		/* Increase by m_iRegenComboAfterMiss; never push it beyond m_iMaxRegenComboAfterMiss
 		 * but don't reduce it if it's already past. */
@@ -227,6 +678,35 @@ void LifeMeterBar::ChangeLife( float fDeltaLife )
 	switch(m_pPlayerState->m_PlayerOptions.GetSong().m_DrainType)
 	{
 		case DrainType_Normal:
+		case DrainType_Class:
+			if( fDeltaLife > 0 )
+				fDeltaLife *= m_fLifeDifficulty;
+			else
+				fDeltaLife /= m_fLifeDifficulty;
+			break;
+		case DrainType_Flare1:
+		case DrainType_Flare2:
+		case DrainType_Flare3:
+		case DrainType_Flare4:
+		case DrainType_Flare5:
+		case DrainType_Flare6:
+		case DrainType_Flare7:
+		case DrainType_Flare8:
+		case DrainType_Flare9:
+		case DrainType_FlareEX:
+			// Substract like Flare, don't increase if > 0.
+			if (fDeltaLife < 0)
+				fDeltaLife = fDeltaLife;
+			else
+				fDeltaLife = 0;
+			break;
+		case DrainType_FloatingFlare:
+			// Substract like Floating Flare, allow 1.0f to reset to a new Flare Gauge
+			if (fDeltaLife < 0 || fDeltaLife == 1.0f)
+				fDeltaLife = fDeltaLife;
+			else
+				fDeltaLife = 0;
+			break;
 		case DrainType_NoRecover:
 			if( fDeltaLife > 0 )
 				fDeltaLife *= m_fLifeDifficulty;
@@ -274,17 +754,17 @@ void LifeMeterBar::AfterLifeChanged()
 }
 
 bool LifeMeterBar::IsHot() const
-{ 
-	return m_fLifePercentage >= HOT_VALUE; 
+{
+	return m_fLifePercentage >= HOT_VALUE;
 }
 
 bool LifeMeterBar::IsInDanger() const
-{ 
-	return m_fLifePercentage < DANGER_THRESHOLD; 
+{
+	return m_fLifePercentage < DANGER_THRESHOLD;
 }
 
 bool LifeMeterBar::IsFailing() const
-{ 
+{
 	return m_fLifePercentage <= m_pPlayerState->m_PlayerOptions.GetCurrent().m_fPassmark;
 }
 
@@ -302,7 +782,7 @@ void LifeMeterBar::Update( float fDeltaTime )
 	m_pStream->SetPassingAlpha( m_fPassingAlpha );
 	m_pStream->SetHotAlpha( m_fHotAlpha );
 
-	if( m_pPlayerState->m_HealthState == HealthState_Danger )
+	if( m_pPlayerState->m_HealthState == HealthState_Danger && m_fLifePercentage != 0 )
 		m_sprDanger->SetVisible( true );
 	else
 		m_sprDanger->SetVisible( false );
@@ -372,9 +852,6 @@ void LifeMeterBar::UpdateNonstopLifebar()
 	 * Life 15:  100   %
 	 * Life 16+: 200   %
 	 *
-	 * Note there is 200%, because boos take off 1/2 as much as
-	 * a miss, and a W5 would suck up half of your lifebar.
-	 *
 	 * Everything past 7 is intended mainly for nonstop mode.
 	 */
 
@@ -384,7 +861,7 @@ void LifeMeterBar::UpdateNonstopLifebar()
 	int iLifeDifficulty = int( (1.8f - m_fLifeDifficulty)/0.2f );
 
 	// first eight values don't matter
-	float fDifficultyValues[16] = {0,0,0,0,0,0,0,0, 
+	float fDifficultyValues[16] = {0,0,0,0,0,0,0,0,
 		0.3f, 0.25f, 0.2f, 0.16f, 0.14f, 0.12f, 0.10f, 0.08f};
 
 	if( iLifeDifficulty >= 16 )
@@ -413,7 +890,7 @@ void LifeMeterBar::FillForHowToPlay( int NumW2s, int NumMisses )
 /*
  * (c) 2001-2004 Chris Danford
  * All rights reserved.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -423,7 +900,7 @@ void LifeMeterBar::FillForHowToPlay( int NumW2s, int NumMisses )
  * copyright notice(s) and this permission notice appear in all copies of
  * the Software and that both the above copyright notice(s) and this
  * permission notice appear in supporting documentation.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF

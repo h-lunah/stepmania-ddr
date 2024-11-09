@@ -27,7 +27,6 @@ static const float g_fTimeMeterSecondsChangeInit[] =
 	+0.0f, // SE_W2
 	-0.5f, // SE_W3
 	-1.0f, // SE_W4
-	-2.0f, // SE_W5
 	-4.0f, // SE_Miss
 	-2.0f, // SE_HitMine
 	-0.0f, // SE_CheckpointMiss
@@ -146,7 +145,6 @@ void LifeMeterTime::ChangeLife( TapNoteScore tns )
 	case TNS_W2:		fMeterChange = g_fTimeMeterSecondsChange[SE_W2];		break;
 	case TNS_W3:		fMeterChange = g_fTimeMeterSecondsChange[SE_W3];		break;
 	case TNS_W4:		fMeterChange = g_fTimeMeterSecondsChange[SE_W4];		break;
-	case TNS_W5:		fMeterChange = g_fTimeMeterSecondsChange[SE_W5];		break;
 	case TNS_Miss:		fMeterChange = g_fTimeMeterSecondsChange[SE_Miss];		break;
 	case TNS_HitMine:	fMeterChange = g_fTimeMeterSecondsChange[SE_HitMine];		break;
 	case TNS_CheckpointHit:	fMeterChange = g_fTimeMeterSecondsChange[SE_CheckpointHit];	break;

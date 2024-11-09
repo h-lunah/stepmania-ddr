@@ -1,4 +1,4 @@
-﻿#include "global.h"
+#include "global.h"
 #include "StatsManager.h"
 #include "RageFileManager.h"
 #include "GameState.h"

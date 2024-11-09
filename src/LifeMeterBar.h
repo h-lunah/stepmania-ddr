@@ -60,10 +60,30 @@ private:
 	float		m_fLifeDifficulty;		// essentially same as pref
 
 	int			m_iProgressiveLifebar;		// cached from prefs
-	/** @brief The current number of progressive W5/miss rankings. */
+	/** @brief The current number of progressive miss rankings. */
 	int			m_iMissCombo;
 	/** @brief The combo needed before the life bar starts to fill up after a Player failed. */
 	int			m_iComboToRegainLife;
+	/** @brief Current Flare Gauge active in Floating Flare mode. */
+	int 		currFloatingFlareIndex = 9;
+
+    /** @brief Penalty values for Marvelous judgments */
+	float 		FlareJudgmentsW1[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	/** @brief Penalty values for Perfect judgments */
+	float 		FlareJudgmentsW2[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, -0.01f};
+	/** @brief Penalty values for Great judgments */
+	float 		FlareJudgmentsW3[] = {-0.002f, -0.0029f, -0.0038f, -0.0056f, -0.0074f, -0.0092f, -0.0128f, -0.0164f, -0.02f, -0.02f};
+	/** @brief Penalty values for Good judgments */
+	float 		FlareJudgmentsW4[] = {-0.01f, -0.0145f, -0.019f, -0.028f, -0.038f, -0.045f, -0.064f, -0.082f, -0.1f, -0.1f};
+	/** @brief Penalty values for misses */
+	float 		FlareJudgmentsMiss[] = {-0.10f, -0.11f, -0.12f, -0.14f, -0.16f, -0.18f, -0.22f, -0.26f, -0.3f, -0.3f};
+
+	/** @brief Penalty values for OKs */
+	float 		FlareJudgmentsHeld[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	/** @brief Penalty values for missed holds, not used as the Miss penalty applies here. */
+	float 		FlareJudgmentsMissed[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	/** @brief Penalty values for NGs */
+	float 		FlareJudgmentsLetGo[] = {-0.10f, -0.11f, -0.12f, -0.14f, -0.16f, -0.18f, -0.22f, -0.26f, -0.3f, -0.3f};
 };
 
 #endif

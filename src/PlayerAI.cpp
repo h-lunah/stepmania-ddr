@@ -27,7 +27,6 @@ struct TapScoreDistribution
 	{
 		fPercent[TNS_None] = 0;
 		fPercent[TNS_Miss] = 1;
-		fPercent[TNS_W5] = 0;
 		fPercent[TNS_W4] = 0;
 		fPercent[TNS_W3] = 0;
 		fPercent[TNS_W2] = 0;
@@ -88,8 +87,6 @@ void PlayerAI::InitFromDisk()
 				dist.fPercent[TNS_None] = 0;
 				bSuccess = pNode->GetAttrValue( "WeightMiss", dist.fPercent[TNS_Miss] );
 				SET_MALF_IF(!bSuccess, TNS_Miss);
-				bSuccess = pNode->GetAttrValue( "WeightW5", dist.fPercent[TNS_W5] );
-				SET_MALF_IF(!bSuccess, TNS_W5);
 				bSuccess = pNode->GetAttrValue( "WeightW4", dist.fPercent[TNS_W4] );
 				SET_MALF_IF(!bSuccess, TNS_W4);
 				bSuccess = pNode->GetAttrValue( "WeightW3", dist.fPercent[TNS_W3] );

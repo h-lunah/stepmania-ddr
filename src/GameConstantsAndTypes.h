@@ -222,7 +222,6 @@ enum TapNoteScore {
 	TNS_AvoidMine, /**< A mine was avoided successfully. */
 	TNS_CheckpointMiss, /**< A checkpoint was missed during a hold. */
 	TNS_Miss, /**< A note was missed entirely. */
-	TNS_W5, /**< A note was almost missed, but not quite. */
 	TNS_W4, /**< A note was hit either a bit early or a bit late. */
 	TNS_W3, /**< A note was hit with decent accuracy, but not the best. */
 	TNS_W2, /**< A note was hit off by just a miniscule amount. This used to be the best rating. */
@@ -288,7 +287,6 @@ enum TimingWindow
 	TW_W2,
 	TW_W3,
 	TW_W4,
-	TW_W5,
 	TW_Mine,
 	TW_Attack,
 	TW_Hold,
@@ -306,7 +304,6 @@ enum ScoreEvent
 	SE_W2,
 	SE_W3,
 	SE_W4,
-	SE_W5,
 	SE_Miss,
 	SE_HitMine,
 	SE_CheckpointMiss,

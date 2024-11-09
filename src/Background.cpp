@@ -884,10 +884,9 @@ void BackgroundImpl::GetLoadedBackgroundChanges( vector<BackgroundChange> *pBack
 
 bool BackgroundImpl::IsDangerAllVisible()
 {
-	// The players are never in danger in FAIL_OFF.
 	FOREACH_PlayerNumber( p )
 		if( GAMESTATE->GetPlayerFailType(GAMESTATE->m_pPlayerState[p]) == FailType_Off )
-			return false;
+			return true;
 	if( !g_bShowDanger )
 		return false;
 

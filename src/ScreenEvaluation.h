@@ -25,7 +25,6 @@ enum JudgmentLine
 	JudgmentLine_W2,	/**< The line showing just-a-smidge-off perfect hits. */
 	JudgmentLine_W3,	/**< The line showing almost perfect hits. */
 	JudgmentLine_W4,	/**< The line showing hits that were not that good. */
-	JudgmentLine_W5,	/**< The line showing hits that were almost missed. */
 	JudgmentLine_Miss,	/**< The line showing missed notes. */
 	JudgmentLine_Held,	/**< The line showing held down notes. */
 	JudgmentLine_MaxCombo,	/**< The line showing the player's max combo. */

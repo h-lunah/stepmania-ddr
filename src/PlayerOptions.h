@@ -30,6 +30,18 @@ enum DrainType
 	DrainType_Normal,
 	DrainType_NoRecover,
 	DrainType_SuddenDeath,
+	DrainType_Class,
+	DrainType_Flare1,
+	DrainType_Flare2,
+	DrainType_Flare3,
+	DrainType_Flare4,
+	DrainType_Flare5,
+	DrainType_Flare6,
+	DrainType_Flare7,
+	DrainType_Flare8,
+	DrainType_Flare9,
+	DrainType_FlareEX,
+	DrainType_FloatingFlare,
 	NUM_DrainType,
 	DrainType_Invalid
 };

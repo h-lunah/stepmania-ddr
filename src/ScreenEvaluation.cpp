@@ -35,7 +35,7 @@
 #define BANNER_HEIGHT			THEME->GetMetricF(m_sName,"BannerHeight")
 static const char *JudgmentLineNames[] =
 {
-	"W1", "W2", "W3", "W4", "W5", "Miss", "Held", "MaxCombo"
+	"W1", "W2", "W3", "W4", "Miss", "Held", "MaxCombo"
 };
 XToString( JudgmentLine );
 LuaXType( JudgmentLine );
@@ -535,7 +535,7 @@ void ScreenEvaluation::Init()
 					break;
 				case JudgmentLine_W3:		iValue = m_pStageStats->m_player[p].m_iTapNoteScores[TNS_W3];	break;
 				case JudgmentLine_W4:		iValue = m_pStageStats->m_player[p].m_iTapNoteScores[TNS_W4];	break;
-				case JudgmentLine_W5:		iValue = m_pStageStats->m_player[p].m_iTapNoteScores[TNS_W5];	break;
+
 				case JudgmentLine_Miss:
 					iValue = m_pStageStats->m_player[p].m_iTapNoteScores[TNS_Miss];
 					if( CHECKPOINTS_WITH_JUDGMENTS )

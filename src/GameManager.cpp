@@ -527,7 +527,6 @@ static const Game g_Game_Dance =
 	TNS_W2,	// m_mapW2To
 	TNS_W3,	// m_mapW3To
 	TNS_W4,	// m_mapW4To
-	TNS_W5,	// m_mapW5To
 };
 
 static const AutoMappings g_AutoKeyMappings_Pump = AutoMappings (
@@ -890,7 +889,6 @@ static const Game g_Game_Pump =
 	TNS_W2,	// m_mapW2To
 	TNS_W3,	// m_mapW3To
 	TNS_W4,	// m_mapW4To
-	TNS_W5,	// m_mapW5To
 };
 
 static const AutoMappings g_AutoKeyMappings_KB7 = AutoMappings (
@@ -1075,7 +1073,6 @@ static const Game g_Game_KB7 =
 	TNS_W2,	// m_mapW2To
 	TNS_W3,	// m_mapW3To
 	TNS_W4,	// m_mapW4To
-	TNS_W5,	// m_mapW5To
 };
 
 //ThemeMetric<int>	EZ2_COL_SPACING	("ColumnSpacing","EZ2");
@@ -1343,7 +1340,6 @@ static const Game g_Game_Ez2 =
 	TNS_W2,		// m_mapW2To
 	TNS_W2,		// m_mapW3To
 	TNS_W4,		// m_mapW4To
-	TNS_Miss,	// m_mapW5To
 };
 
 //ThemeMetric<int>	PARA_COL_SPACING	("ColumnSpacing","Para");
@@ -1471,7 +1467,6 @@ static const Game g_Game_Para =
 	TNS_W2,	// m_mapW2To
 	TNS_W3,	// m_mapW3To
 	TNS_W4,	// m_mapW4To
-	TNS_W5,	// m_mapW5To
 };
 
 //ThemeMetric<int>	DS3DDX_COL_SPACING	("ColumnSpacing","DS3DDX");
@@ -1575,7 +1570,6 @@ static const Game g_Game_DS3DDX =
 	TNS_W2,	// m_mapW2To
 	TNS_W3,	// m_mapW3To
 	TNS_W4,	// m_mapW4To
-	TNS_W5,	// m_mapW5To
 };
 
 //ThemeMetric<int>	BEAT_COL_SPACING	("ColumnSpacing","Beat");
@@ -1918,7 +1912,6 @@ static const Game g_Game_Beat =
 	TNS_W2,	// m_mapW2To
 	TNS_W3,	// m_mapW3To
 	TNS_W4,	// m_mapW4To
-	TNS_W5,	// m_mapW5To
 };
 
 //ThemeMetric<int>	MANIAX_COL_SPACING	("ColumnSpacing","Maniax");
@@ -2086,7 +2079,6 @@ static const Game g_Game_Maniax =
 	TNS_W2,	// m_mapW2To
 	TNS_W3,	// m_mapW3To
 	TNS_W4,	// m_mapW4To
-	TNS_W5,	// m_mapW5To
 };
 
 /** Techno *******************************************************************/
@@ -2567,7 +2559,6 @@ static const Game g_Game_Techno =
 	TNS_W2,	// m_mapW2To
 	TNS_W3,	// m_mapW3To
 	TNS_W4,	// m_mapW4To
-	TNS_W5,	// m_mapW5To
 };
 
 /** popn *********************************************************************/
@@ -2717,7 +2708,6 @@ static const Game g_Game_Popn =
 	TNS_W2,	// m_mapW2To
 	TNS_W3,	// m_mapW3To
 	TNS_W4,	// m_mapW4To
-	TNS_W5,	// m_mapW5To
 };
 
 /** Lights *******************************************************************/
@@ -2821,7 +2811,6 @@ static const Game g_Game_Lights =
 	TNS_W2,	// m_mapW2To
 	TNS_W3,	// m_mapW3To
 	TNS_W4,	// m_mapW4To
-	TNS_W5,	// m_mapW5To
 };
 
 /** Kickbox mania **********************************************************/
@@ -3208,7 +3197,6 @@ static const Game g_Game_Kickbox =
 	TNS_W2,	// m_mapW2To
 	TNS_W3,	// m_mapW3To
 	TNS_W4,	// m_mapW4To
-	TNS_W5,	// m_mapW5To
 };
 
 static const Game *g_Games[] = 

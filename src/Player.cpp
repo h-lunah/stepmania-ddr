@@ -119,9 +119,6 @@ void TimingWindowSecondsInit( size_t /*TimingWindow*/ i, RString &sNameOut, floa
 		case TW_W4:
 			defaultValueOut = 0.135f;
 			break;
-		case TW_W5:
-			defaultValueOut = 0.180f;
-			break;
 		case TW_Mine: // same as great
 			defaultValueOut = 0.090f;
 			break;
@@ -2198,7 +2195,7 @@ void Player::Step( int col, int row, const RageTimer &tm, bool bHeld, bool bRele
 			case TapNoteType_HoldHead:
 				// oh wow, this was causing the trigger before the hold heads
 				// bug. (It was fNoteOffset > 0.f before) -DaisuMaster
-				if( !REQUIRE_STEP_ON_HOLD_HEADS && ( fNoteOffset <= GetWindowSeconds( TW_W5 ) && GetWindowSeconds( TW_W5 ) != 0 ) )
+				if( !REQUIRE_STEP_ON_HOLD_HEADS && ( fNoteOffset <= GetWindowSeconds( TW_W4 ) && GetWindowSeconds( TW_W4 ) != 0 ) )
 				{
 					score = TNS_W1;
 					break;
@@ -2211,7 +2208,6 @@ void Player::Step( int col, int row, const RageTimer &tm, bool bHeld, bool bRele
 					else if( fSecondsFromExact <= GetWindowSeconds(TW_W2) )	score = TNS_W2;
 					else if( fSecondsFromExact <= GetWindowSeconds(TW_W3) )	score = TNS_W3;
 					else if( fSecondsFromExact <= GetWindowSeconds(TW_W4) )	score = TNS_W4;
-					else if( fSecondsFromExact <= GetWindowSeconds(TW_W5) )	score = TNS_W5;
 				}
 				break;
 			}
@@ -2227,7 +2223,7 @@ void Player::Step( int col, int row, const RageTimer &tm, bool bHeld, bool bRele
 			// GetTapNoteScore always returns TNS_W1 in autoplay.
 			// If the step is far away, don't judge it.
 			if( m_pPlayerState->m_PlayerController == PC_AUTOPLAY &&
-				fSecondsFromExact > GetWindowSeconds(TW_W5) )
+				fSecondsFromExact > GetWindowSeconds(TW_W4) )
 			{
 				score = TNS_None;
 				break;
@@ -2280,7 +2276,6 @@ void Player::Step( int col, int row, const RageTimer &tm, bool bHeld, bool bRele
 				float fWindowW2 = GetWindowSeconds(TW_W2);
 				float fWindowW3 = GetWindowSeconds(TW_W3);
 				float fWindowW4 = GetWindowSeconds(TW_W4);
-				float fWindowW5 = GetWindowSeconds(TW_W5);
 
 				// W1 is the top judgment, there is no overlap.
 				if( score == TNS_W1 )
@@ -2308,12 +2303,6 @@ void Player::Step( int col, int row, const RageTimer &tm, bool bHeld, bool bRele
 						fLowerBound = -fWindowW3;
 						fUpperBound = fWindowW3;
 						fCompareWindow = fWindowW4;
-					}
-					else if( score == TNS_W5 )
-					{
-						fLowerBound = -fWindowW4;
-						fUpperBound = fWindowW4;
-						fCompareWindow = fWindowW5;
 					}
 					float f1 = randomf(-fCompareWindow, fLowerBound);
 					float f2 = randomf(fUpperBound, fCompareWindow);
@@ -3062,7 +3051,6 @@ void Player::HandleHoldScore( const TapNote &tn )
 float Player::GetMaxStepDistanceSeconds()
 {
 	float fMax = 0;
-	fMax = max( fMax, GetWindowSeconds(TW_W5) );
 	fMax = max( fMax, GetWindowSeconds(TW_W4) );
 	fMax = max( fMax, GetWindowSeconds(TW_W3) );
 	fMax = max( fMax, GetWindowSeconds(TW_W2) );

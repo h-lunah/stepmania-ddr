@@ -22,7 +22,7 @@ struct TapNoteResult
 	 *
 	 * Negative numbers mean the note was hit early; positive numbers mean 
 	 * it was hit late. These values are only meaningful for graded taps
-	 * (tns >= TNS_W5). */
+	 * (tns >= TNS_W4). */
 	float		fTapNoteOffset;
 
 	/** @brief If the whole row has been judged, all taps on the row will be set to hidden. */

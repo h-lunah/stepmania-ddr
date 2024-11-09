@@ -1992,6 +1992,10 @@ FailType GameState::GetPlayerFailType( const PlayerState *pPlayerState ) const
 	PlayerNumber pn = pPlayerState->m_PlayerNumber;
 	FailType ft = pPlayerState->m_PlayerOptions.GetCurrent().m_FailType;
 
+	// Don't fail in event mode
+	if ( PREFSMAN->m_bEventMode )
+		return FailType_Off;
+
 	// If the player changed the fail mode explicitly, leave it alone.
 	if( m_bFailTypeWasExplicitlySet )
 		return ft;

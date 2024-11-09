@@ -195,7 +195,6 @@ static const char *TapNoteScoreNames[] = {
 	"AvoidMine",
 	"CheckpointMiss",
 	"Miss",
-	"W5",
 	"W4",
 	"W3",
 	"W2",
@@ -212,7 +211,6 @@ struct tns_conversion_helper
 			conversion_map[TapNoteScoreNames[tns]]= tns;
 		}
 		// for backward compatibility
-		conversion_map["Boo"]= TNS_W5;
 		conversion_map["Good"]= TNS_W4;
 		conversion_map["Great"]= TNS_W3;
 		conversion_map["Perfect"]= TNS_W2;
@@ -275,7 +273,6 @@ static const char *TimingWindowNames[] = {
 	"W2",
 	"W3",
 	"W4",
-	"W5",
 	"Mine",
 	"Attack",
 	"Hold",
@@ -290,7 +287,6 @@ static const char *ScoreEventNames[] = {
 	"W2",
 	"W3",
 	"W4",
-	"W5",
 	"Miss",
 	"HitMine",
 	"CheckpointMiss",

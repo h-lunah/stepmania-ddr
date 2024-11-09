@@ -10,7 +10,6 @@ TapNoteScore Game::MapTapNoteScore( TapNoteScore tns ) const
 	case TNS_W2: return m_mapW2To;
 	case TNS_W3: return m_mapW3To;
 	case TNS_W4: return m_mapW4To;
-	case TNS_W5: return m_mapW5To;
 	default: return tns;
 	}
 }
@@ -47,7 +46,6 @@ TapNoteScore Game::GetMapJudgmentTo( TapNoteScore tns ) const
 		case TNS_W2: return m_mapW2To; 
 		case TNS_W3: return m_mapW3To;
 		case TNS_W4: return m_mapW4To;
-		case TNS_W5: return m_mapW5To;
 		default: return TapNoteScore_Invalid;
 	}
 }

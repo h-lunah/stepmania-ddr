@@ -23,7 +23,6 @@ static void SuperMeterPercentChangeInit( size_t /*ScoreEvent*/ i, RString &sName
 	case SE_W2:				defaultValueOut = +0.04f; break;
 	case SE_W3:				defaultValueOut = +0.02f; break;
 	case SE_W4:				defaultValueOut = +0.00f; break;
-	case SE_W5:				defaultValueOut = +0.00f; break;
 	case SE_Miss:			defaultValueOut = -0.20f; break;
 	case SE_HitMine:		defaultValueOut = -0.40f; break;
 	case SE_CheckpointMiss:	defaultValueOut = -0.20f; break;
@@ -70,7 +69,6 @@ void ScoreKeeperRave::HandleTapRowScore( const NoteData &nd, int iRow )
 		case TNS_W2:	fPercentToMove = g_fSuperMeterPercentChange[SE_W2];		break;
 		case TNS_W3:	fPercentToMove = g_fSuperMeterPercentChange[SE_W3];		break;
 		case TNS_W4:	fPercentToMove = g_fSuperMeterPercentChange[SE_W4];		break;
-		case TNS_W5:	fPercentToMove = g_fSuperMeterPercentChange[SE_W5];		break;
 		case TNS_Miss:	fPercentToMove = g_fSuperMeterPercentChange[SE_Miss];	break;
 	}
 	AddSuperMeterDelta( fPercentToMove );

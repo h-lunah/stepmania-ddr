@@ -730,8 +730,7 @@ int ScoreKeeperNormal::TapNoteScoreToDancePoints( TapNoteScore tns, bool bBeginn
 	DEFAULT_FAIL( tns );
 	case TNS_None:		iWeight = 0;														break;
 	case TNS_HitMine:	iWeight = g_iPercentScoreWeight.GetValue(SE_HitMine);				break;
-	case TNS_Miss:		iWeight = g_iPercentScoreWeight.GetValue(SE_Miss);					break;
-	case TNS_W5:		iWeight = g_iPercentScoreWeight.GetValue(SE_W5);					break;
+	case TNS_Miss:		iWeight = g_iPercentScoreWeight.GetValue(SE_Miss);					break;				break;
 	case TNS_W4:		iWeight = g_iPercentScoreWeight.GetValue(SE_W4);					break;
 	case TNS_W3:		iWeight = g_iPercentScoreWeight.GetValue(SE_W3);					break;
 	case TNS_W2:		iWeight = g_iPercentScoreWeight.GetValue(SE_W2);					break;
@@ -775,7 +774,6 @@ int ScoreKeeperNormal::TapNoteScoreToGradePoints( TapNoteScore tns, bool bBeginn
 	case TNS_AvoidMine:	iWeight = 0;												break;
 	case TNS_HitMine:	iWeight = g_iGradeWeight.GetValue(SE_HitMine);				break;
 	case TNS_Miss:		iWeight = g_iGradeWeight.GetValue(SE_Miss);					break;
-	case TNS_W5:		iWeight = g_iGradeWeight.GetValue(SE_W5);					break;
 	case TNS_W4:		iWeight = g_iGradeWeight.GetValue(SE_W4);					break;
 	case TNS_W3:		iWeight = g_iGradeWeight.GetValue(SE_W3);					break;
 	case TNS_W2:		iWeight = g_iGradeWeight.GetValue(SE_W2);					break;

@@ -196,7 +196,7 @@ public:
 	Preference<bool>	m_bMinimum1FullSongInCourses; // FEoS for 1st song, FailImmediate thereafter
 	Preference<bool>	m_bFailOffInBeginner;
 	Preference<bool>	m_bFailOffForFirstStageEasy;
-	Preference<bool>	m_bMercifulBeginner; // don't subtract from percent score or grade DP, larger W5 window
+	Preference<bool>	m_bMercifulBeginner; // don't subtract from percent score or grade DP, larger W4 window
 	Preference<bool>	m_bMercifulSuperMeter; // negative super deltas are scaled by the players life percentage
 	Preference<bool>	m_bDelayedBack;
 	Preference<bool>	m_AllowHoldForOptions;
