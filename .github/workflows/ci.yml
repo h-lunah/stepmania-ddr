@@ -75,7 +75,7 @@ jobs:
 
   macos-build-bundled:
     name: "macOS: Build with bundled libraries"
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
