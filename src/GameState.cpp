@@ -1991,9 +1991,11 @@ FailType GameState::GetPlayerFailType( const PlayerState *pPlayerState ) const
 {
 	PlayerNumber pn = pPlayerState->m_PlayerNumber;
 	FailType ft = pPlayerState->m_PlayerOptions.GetCurrent().m_FailType;
+    DrainType dt = pPlayerState->m_PlayerOptions.GetCurrent().m_DrainType;
+    LifeType lt = pPlayerState->m_PlayerOptions.GetCurrent().m_LifeType;
 
-	// Don't fail in event mode
-	if ( PREFSMAN->m_bEventMode )
+	// Don't fail in event mode when using normal gauge types
+	if ( PREFSMAN->m_bEventMode && dt == DrainType_Normal && lt == LifeType_Bar )
 		return FailType_Off;
 
 	// If the player changed the fail mode explicitly, leave it alone.
