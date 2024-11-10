@@ -321,8 +321,8 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 				if ( currFloatingFlareIndex > 0 )
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = 0;
-					SetLife(1.0f);
+					fDeltaLife = FlareJudgmentsW1[currFloatingFlareIndex];
+					SetLife(1.0f - FlareJudgmentsW1[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsW1[currFloatingFlareIndex];
 			}
@@ -335,8 +335,8 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 				if ( currFloatingFlareIndex > 0 )
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = 0;
-					SetLife(1.0f);
+					fDeltaLife = FlareJudgmentsW2[currFloatingFlareIndex];
+					SetLife(1.0f - FlareJudgmentsW2[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsW2[currFloatingFlareIndex];
 			}
@@ -349,8 +349,8 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 				if ( currFloatingFlareIndex > 0 )
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = 0;
-					SetLife(1.0f);
+					fDeltaLife = FlareJudgmentsW3[currFloatingFlareIndex];
+					SetLife(1.0f - FlareJudgmentsW3[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsW3[currFloatingFlareIndex];
 			}
@@ -363,8 +363,8 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 				if (currFloatingFlareIndex > 0)
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = 0;
-					SetLife(1.0f);
+					fDeltaLife = FlareJudgmentsW4[currFloatingFlareIndex];
+					SetLife(1.0f - FlareJudgmentsW4[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsW4[currFloatingFlareIndex];
 			}
@@ -378,7 +378,7 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 				{
 					--currFloatingFlareIndex;
 					fDeltaLife = 0;
-					SetLife(1.0f);
+					SetLife(1.0f - FlareJudgmentsMiss[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsMiss[currFloatingFlareIndex];
 			}
@@ -392,7 +392,7 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 				{
 					--currFloatingFlareIndex;
 					fDeltaLife = 0;
-					SetLife(1.0f);
+					SetLife(1.0f - FlareJudgmentsMiss[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsMiss[currFloatingFlareIndex];
 			}
@@ -406,7 +406,7 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 				{
 					--currFloatingFlareIndex;
 					fDeltaLife = 0;
-					SetLife(1.0f);
+					SetLife(1.0f - FlareJudgmentsW1[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsW1[currFloatingFlareIndex];
 			}
@@ -420,7 +420,7 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 				{
 					--currFloatingFlareIndex;
 					fDeltaLife = 0;
-					SetLife(1.0f);
+					SetLife(1.0f - FlareJudgmentsW1[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsW1[currFloatingFlareIndex];
 			}
@@ -581,8 +581,8 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
 				if (currFloatingFlareIndex > 0)
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = 0;
-					SetLife(1.0f);
+					fDeltaLife = FlareJudgmentsHeld[currFloatingFlareIndex];
+					SetLife(1.0f - FlareJudgmentsHeld[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsHeld[currFloatingFlareIndex];
 			}
@@ -595,8 +595,8 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
 				if (currFloatingFlareIndex > 0)
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = 0;
-					SetLife(1.0f);
+					fDeltaLife = FlareJudgmentsLetGo[currFloatingFlareIndex];
+					SetLife(1.0f - FlareJudgmentsLetGo[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsLetGo[currFloatingFlareIndex];
 			}
@@ -609,8 +609,8 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
 				if (currFloatingFlareIndex > 0)
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = 0;
-					SetLife(1.0f);
+					fDeltaLife = FlareJudgmentsMissed[currFloatingFlareIndex];
+					SetLife(1.0f - FlareJudgmentsMissed[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsHeld[currFloatingFlareIndex];
 			}

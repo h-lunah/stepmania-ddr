@@ -40,6 +40,7 @@ private:
 	ThemeMetric<float> VELOCITY_MAX;
 	ThemeMetric<float> SPRING_MULTIPLIER;
 	ThemeMetric<float> VISCOSITY_MULTIPLIER;
+	ThemeMetric<float> INITIAL_VALUE;
 
 	float m_fPercent;	// percent filled
 	float m_fTrailingPercent;	// this approaches m_fPercent, use this value to draw

@@ -15,8 +15,10 @@ XToString( StreamType );
 
 StreamDisplay::StreamDisplay()
 {
-	m_fPercent = 0;
-	m_fTrailingPercent = 0;
+	INITIAL_VALUE.Load("LifeMeterBar", "InitialValue");
+
+	m_fPercent = INITIAL_VALUE;
+	m_fTrailingPercent = INITIAL_VALUE;
 	m_fVelocity = 0;
 	m_fPassingAlpha = 0;
 	m_fHotAlpha = 0;
