@@ -9,6 +9,10 @@
 
 #include <cerrno>
 
+#if LIBAVCODEC_VERSION_MAJOR < 59
+#define frame_num frame_number
+#endif
+
 static void FixLilEndian()
 {
 #if defined(ENDIAN_LITTLE)
