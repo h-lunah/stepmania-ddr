@@ -112,6 +112,7 @@ MovieDecoder_FFMpeg::MovieDecoder_FFMpeg()
 	m_swsctx = NULL;
 	m_avioContext = NULL;
 	m_buffer = NULL;
+	m_pStreamCodec = NULL;
 	m_fctx = nullptr;
 	m_pStream = nullptr;
 	m_iCurrentPacketOffset = -1;
@@ -166,6 +167,7 @@ void MovieDecoder_FFMpeg::Init()
 	{
 		avcodec::avcodec_free_context(&m_pStreamCodec);
 	}
+	m_pStreamCodec = NULL;
 #endif
 }
 
@@ -273,7 +275,7 @@ int MovieDecoder_FFMpeg::DecodePacket( float fTargetTime )
 		bool bSkipThisFrame =
 			fTargetTime != -1 &&
 			GetTimestamp() + GetFrameDuration() < fTargetTime &&
-			(m_pStreamCodec->frame_number % 2) == 0;
+			(m_pStreamCodec->frame_num % 2) == 0;
 
 		int iGotFrame;
 		int len;
@@ -508,7 +510,7 @@ RString MovieDecoder_FFMpeg::OpenCodec()
 	if( m_pStreamCodec->codec )
 		avcodec::avcodec_close( m_pStreamCodec );
 
-	avcodec::AVCodec *pCodec = avcodec::avcodec_find_decoder( m_pStreamCodec->codec_id );
+	const avcodec::AVCodec *pCodec = avcodec::avcodec_find_decoder( m_pStreamCodec->codec_id );
 	if( pCodec == nullptr )
 		return ssprintf( "Couldn't find decoder %i", m_pStreamCodec->codec_id );
 

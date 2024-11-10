@@ -105,6 +105,7 @@ else() # Unix
                 "arch/MovieTexture/MovieTexture_FFMpeg.cpp")
     list(APPEND SMDATA_ARCH_MOVIE_TEXTURE_HPP
                 "arch/MovieTexture/MovieTexture_FFMpeg.h")
+    add_compile_definitions(FF_API_NEXT)
   endif()
 endif()
 
