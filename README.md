@@ -3,9 +3,11 @@ StepMania
 
 StepMania is an advanced cross-platform rhythm game for home and arcade use.
 
-[![Continuous integration](https://github.com/stepmania/stepmania/workflows/Continuous%20integration/badge.svg?branch=5_1-new)](https://github.com/stepmania/stepmania/actions?query=workflow%3A%22Continuous+integration%22+branch%3A5_1-new)
-[![Build Status](https://travis-ci.org/stepmania/stepmania.svg?branch=master)](https://travis-ci.org/stepmania/stepmania)
-[![Build status](https://ci.appveyor.com/api/projects/status/uvoplsnyoats81r2?svg=true)](https://ci.appveyor.com/project/Nickito12/stepmania)
+This fork is designed to act like modern versions of Dance Dance Revolution.
+
+Target DDR version: DDR A20 or later
+
+[![Continuous integration](https://github.com/h-lunah/stepmania-ddr/workflows/Continuous%20integration/badge.svg?branch=5_1-new)](https://github.com/h-lunah/stepmania-ddr/actions?query=workflow%3A%22Continuous+integration%22+branch%3A5_1-new)
 
 ## Installation
 ### From Packages
