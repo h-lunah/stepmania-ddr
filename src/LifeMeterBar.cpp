@@ -18,7 +18,7 @@
 
 static RString LIFE_PERCENT_CHANGE_NAME( size_t i )   { return "LifePercentChange" + ScoreEventToString( (ScoreEvent)i ); }
 
-LifeMeterBar::LifeMeterBar()
+LifeMeterBar::LifeMeterBar( PlayerNumber pn )
 {
 	DANGER_THRESHOLD.Load	("LifeMeterBar","DangerThreshold");
 	INITIAL_VALUE.Load	("LifeMeterBar","InitialValue");
@@ -32,6 +32,7 @@ LifeMeterBar::LifeMeterBar()
 	m_pPlayerState = nullptr;
 
 	const RString sType = "LifeMeterBar";
+
 
 	m_fPassingAlpha = 0;
 	m_fHotAlpha = 0;
@@ -60,7 +61,7 @@ LifeMeterBar::LifeMeterBar()
 	this->AddChild( m_sprDanger );
 
 	m_pStream = new StreamDisplay;
-	m_pStream->Load( bExtra ? "StreamDisplayExtra" : "StreamDisplay" );
+	m_pStream->Load(bExtra ? "StreamDisplayExtra" : "StreamDisplay", pn);
 	m_pStream->SetName( "Stream" );
 	ActorUtil::LoadAllCommandsAndSetXY( m_pStream, sType );
 	this->AddChild( m_pStream );
@@ -321,7 +322,7 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 				if ( currFloatingFlareIndex > 0 )
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = FlareJudgmentsW1[currFloatingFlareIndex];
+					fDeltaLife = 0;
 					SetLife(1.0f - FlareJudgmentsW1[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsW1[currFloatingFlareIndex];
@@ -335,7 +336,7 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 				if ( currFloatingFlareIndex > 0 )
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = FlareJudgmentsW2[currFloatingFlareIndex];
+					fDeltaLife = 0;
 					SetLife(1.0f - FlareJudgmentsW2[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsW2[currFloatingFlareIndex];
@@ -349,7 +350,7 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 				if ( currFloatingFlareIndex > 0 )
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = FlareJudgmentsW3[currFloatingFlareIndex];
+					fDeltaLife = 0;
 					SetLife(1.0f - FlareJudgmentsW3[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsW3[currFloatingFlareIndex];
@@ -363,7 +364,7 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 				if (currFloatingFlareIndex > 0)
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = FlareJudgmentsW4[currFloatingFlareIndex];
+					fDeltaLife = 0;
 					SetLife(1.0f - FlareJudgmentsW4[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsW4[currFloatingFlareIndex];
@@ -581,7 +582,7 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
 				if (currFloatingFlareIndex > 0)
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = FlareJudgmentsHeld[currFloatingFlareIndex];
+					fDeltaLife = 0;
 					SetLife(1.0f - FlareJudgmentsHeld[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsHeld[currFloatingFlareIndex];
@@ -595,7 +596,7 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
 				if (currFloatingFlareIndex > 0)
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = FlareJudgmentsLetGo[currFloatingFlareIndex];
+					fDeltaLife = 0;
 					SetLife(1.0f - FlareJudgmentsLetGo[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsLetGo[currFloatingFlareIndex];
@@ -609,7 +610,7 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
 				if (currFloatingFlareIndex > 0)
 				{
 					--currFloatingFlareIndex;
-					fDeltaLife = FlareJudgmentsMissed[currFloatingFlareIndex];
+					fDeltaLife = 0;
 					SetLife(1.0f - FlareJudgmentsMissed[currFloatingFlareIndex]);
 					break;
 				} else fDeltaLife = FlareJudgmentsHeld[currFloatingFlareIndex];
@@ -760,7 +761,18 @@ bool LifeMeterBar::IsHot() const
 
 bool LifeMeterBar::IsInDanger() const
 {
-	return m_fLifePercentage < DANGER_THRESHOLD;
+    // Floating Flare: FLARE I danger
+	if (m_pPlayerState->m_PlayerOptions.GetCurrent().m_DrainType == DrainType_FloatingFlare && currFloatingFlareIndex == 0) {
+		return m_fLifePercentage < DANGER_THRESHOLD;
+	}
+	// Danger should not be visible when Floating Flare is not FLARE I
+	else if (m_pPlayerState->m_PlayerOptions.GetCurrent().m_DrainType == DrainType_FloatingFlare && currFloatingFlareIndex > 0) {
+		return false;
+	}
+	// Show danger for normal gauges
+	else {
+		return m_fLifePercentage < DANGER_THRESHOLD;
+	}
 }
 
 bool LifeMeterBar::IsFailing() const

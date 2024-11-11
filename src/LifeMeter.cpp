@@ -4,11 +4,11 @@
 #include "LifeMeterBattery.h"
 #include "LifeMeterTime.h"
 
-LifeMeter *LifeMeter::MakeLifeMeter( LifeType t )
+LifeMeter *LifeMeter::MakeLifeMeter( LifeType t, PlayerNumber pn )
 {
 	switch( t )
 	{
-	case LifeType_Bar:     return new LifeMeterBar;
+	case LifeType_Bar:     return new LifeMeterBar(pn);
 	case LifeType_Battery: return new LifeMeterBattery;
 	case LifeType_Time:    return new LifeMeterTime;
 	default:

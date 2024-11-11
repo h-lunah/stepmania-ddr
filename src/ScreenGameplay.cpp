@@ -665,7 +665,7 @@ void ScreenGameplay::Init()
 				if( !GAMESTATE->IsPlayerEnabled(pi->m_pn) && !SHOW_LIFE_METER_FOR_DISABLED_PLAYERS )
 					continue;	// skip
 
-				pi->m_pLifeMeter = LifeMeter::MakeLifeMeter( pi->GetPlayerState()->m_PlayerOptions.GetStage().m_LifeType );
+				pi->m_pLifeMeter = LifeMeter::MakeLifeMeter( pi->GetPlayerState()->m_PlayerOptions.GetStage().m_LifeType, pi->m_pn );
 				pi->m_pLifeMeter->Load( pi->GetPlayerState(), pi->GetPlayerStageStats() );
 				pi->m_pLifeMeter->SetName( ssprintf("Life%s",pi->GetName().c_str()) );
 				LOAD_ALL_COMMANDS_AND_SET_XY( pi->m_pLifeMeter );

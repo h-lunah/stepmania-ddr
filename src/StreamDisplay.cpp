@@ -5,6 +5,7 @@
 #include "RageDisplay.h"
 #include "ThemeManager.h"
 #include "EnumHelper.h"
+#include "PlayerState.h"
 
 static const char *StreamTypeNames[] = {
 	"Normal",
@@ -15,24 +16,32 @@ XToString( StreamType );
 
 StreamDisplay::StreamDisplay()
 {
-	INITIAL_VALUE.Load("LifeMeterBar", "InitialValue");
-
-	m_fPercent = INITIAL_VALUE;
-	m_fTrailingPercent = INITIAL_VALUE;
+	m_fPercent = 0;
+	m_fTrailingPercent = 0;
 	m_fVelocity = 0;
 	m_fPassingAlpha = 0;
 	m_fHotAlpha = 0;
 	m_bAlwaysBounce = false;
-
 	m_bDeleteChildren = true;
+	m_bShouldAnimate = true;
 }
 
-void StreamDisplay::Load( const RString & /* unreferenced: _sMetricsGroup  */)
+void StreamDisplay::Load( const RString &, const PlayerNumber pn)
 {
+	INITIAL_VALUE.Load("LifeMeterBar", "InitialValue");
+	m_transformPill.SetFromReference(THEME->GetMetricR("StreamDisplay", "PillTransformFunction"));
+
+	if (GAMESTATE->IsPlayerEnabled(pn) && GAMESTATE->m_pPlayerState[pn]->m_PlayerOptions.GetCurrent().m_DrainType >= DrainType_Flare1) {
+		INITIAL_VALUE.Load("LifeMeterBar", "FlareInitialValue");
+		m_transformPill.SetFromReference(THEME->GetMetricR("StreamDisplay", "FlarePillTransformFunction"));
+	}
+	m_fPercent = INITIAL_VALUE;
+	m_fTrailingPercent = INITIAL_VALUE;
+
+
 	// XXX: actually load from the metrics group passed in -aj
 	RString sMetricsGroup = "StreamDisplay";
 
-	m_transformPill.SetFromReference( THEME->GetMetricR(sMetricsGroup,"PillTransformFunction") );
 	VELOCITY_MULTIPLIER.Load(sMetricsGroup, "VelocityMultiplier");
 	VELOCITY_MIN.Load(sMetricsGroup, "VelocityMin");
 	VELOCITY_MAX.Load(sMetricsGroup, "VelocityMax");
@@ -69,32 +78,38 @@ void StreamDisplay::Update( float fDeltaSecs )
 
 	// HACK:  Tweaking these values is very difficult.  Update the
 	// "physics" many times so that the spring motion appears faster
-	for( int i=0; i<10; i++ )
-	{
-		const float fDelta = m_fPercent - m_fTrailingPercent;
 
-		// Don't apply spring and viscous forces if we're full or empty.
-		// Just move straight to either full or empty.
-		if( m_fPercent <= 0 || m_fPercent >= 1 )
+	if (m_bShouldAnimate) {
+		for (int i = 0; i < 10; i++)
 		{
-			if( fabsf(fDelta) < 0.00001f )
-				m_fVelocity = 0; // prevent div/0
+			const float fDelta = m_fPercent - m_fTrailingPercent;
+
+			// Don't apply spring and viscous forces if we're full or empty.
+			// Just move straight to either full or empty.
+			if (m_fPercent <= 0 || m_fPercent >= 1)
+			{
+				if (fabsf(fDelta) < 0.00001f)
+					m_fVelocity = 0; // prevent div/0
+				else
+					m_fVelocity = (fDelta / fabsf(fDelta)) * VELOCITY_MULTIPLIER;
+			}
 			else
-				m_fVelocity = (fDelta / fabsf(fDelta)) * VELOCITY_MULTIPLIER;
+			{
+				const float fSpringForce = fDelta * SPRING_MULTIPLIER;
+				m_fVelocity += fSpringForce * fDeltaSecs;
+
+				const float fViscousForce = -m_fVelocity * VISCOSITY_MULTIPLIER;
+				if (!m_bAlwaysBounce)
+					m_fVelocity += fViscousForce * fDeltaSecs;
+			}
+
+			CLAMP(m_fVelocity, VELOCITY_MIN, VELOCITY_MAX);
+
+			m_fTrailingPercent += m_fVelocity * fDeltaSecs;
 		}
-		else
-		{
-			const float fSpringForce = fDelta * SPRING_MULTIPLIER;
-			m_fVelocity += fSpringForce * fDeltaSecs;
-
-			const float fViscousForce = -m_fVelocity * VISCOSITY_MULTIPLIER;
-			if( !m_bAlwaysBounce )
-				m_fVelocity += fViscousForce * fDeltaSecs;
-		}
-
-		CLAMP( m_fVelocity, VELOCITY_MIN, VELOCITY_MAX );
-
-		m_fTrailingPercent += m_fVelocity * fDeltaSecs;
+	}
+	else {
+		m_fTrailingPercent = m_fPercent;
 	}
 
 	// Don't clamp life percentage a little outside the visible range so

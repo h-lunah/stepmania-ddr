@@ -130,7 +130,7 @@ void ScreenHowToPlay::Init()
 	{
 		GAMESTATE->SetMasterPlayerNumber(PLAYER_1);
 
-		m_pLifeMeterBar = new LifeMeterBar;
+		m_pLifeMeterBar = new LifeMeterBar( PLAYER_1 );
 		m_pLifeMeterBar->Load( GAMESTATE->m_pPlayerState[PLAYER_1], &STATSMAN->m_CurStageStats.m_player[PLAYER_1] );
 		m_pLifeMeterBar->SetName("LifeMeterBar");
 		ActorUtil::LoadAllCommandsAndSetXY( m_pLifeMeterBar, m_sName );

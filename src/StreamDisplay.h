@@ -23,13 +23,14 @@ public:
 
 	virtual void Update( float fDeltaSecs );
 
-	void Load( const RString &sMetricsGroup );
+	void Load( const RString &sMetricsGroup, const PlayerNumber pn);
 
 	void SetPercent( float fPercent );
 	void SetPassingAlpha( float fPassingAlpha ) { m_fPassingAlpha = fPassingAlpha; }
 	void SetHotAlpha( float fHotAlpha ) { m_fHotAlpha = fHotAlpha; }
 
 	float GetPercent() { return m_fPercent; }
+
 
 private:
 	vector<Sprite*>	m_vpSprPill[NUM_StreamType];
@@ -50,6 +51,7 @@ private:
 	float m_fHotAlpha;
 
 	bool m_bAlwaysBounce;
+	bool m_bShouldAnimate;
 };
 
 #endif

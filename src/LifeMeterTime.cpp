@@ -78,7 +78,7 @@ void LifeMeterTime::Load( const PlayerState *pPlayerState, PlayerStageStats *pPl
 
 	m_pStream = new StreamDisplay;
 	bool bExtra = GAMESTATE->IsAnExtraStage();
-	m_pStream->Load( bExtra ? "StreamDisplayExtra" : "StreamDisplay" );
+	m_pStream->Load( bExtra ? "StreamDisplayExtra" : "StreamDisplay", pPlayerState->m_PlayerNumber );
 	this->AddChild( m_pStream );
 
 	RString sExtra = bExtra ? "extra " : "";

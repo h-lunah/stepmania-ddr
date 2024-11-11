@@ -12,7 +12,7 @@ class StreamDisplay;
 class LifeMeterBar : public LifeMeter
 {
 public:
-	LifeMeterBar();
+	LifeMeterBar( PlayerNumber pn );
 	~LifeMeterBar();
 
 	virtual void Load( const PlayerState *pPlayerState, PlayerStageStats *pPlayerStageStats );
