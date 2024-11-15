@@ -9,6 +9,14 @@ Target DDR version: DDR A20 or later
 
 [![Continuous integration](https://github.com/h-lunah/stepmania-ddr/workflows/Continuous%20integration/badge.svg?branch=5_1-new)](https://github.com/h-lunah/stepmania-ddr/actions?query=workflow%3A%22Continuous+integration%22+branch%3A5_1-new)
 
+## New Features
+- New Gauges
+  - CLASS (DDR A20~DDR A3)
+  - FLARE (DDR A3~, 10 levels)
+  - FLOATING FLARE (DDR WORLD)
+- Independent Lifebar States (players won't have conflicting states)
+- Arcade Failing Behavior (can't fail in Event Mode)
+
 ## Installation
 ### From Packages
 
