@@ -12,7 +12,7 @@ class StreamDisplay;
 class LifeMeterBar : public LifeMeter
 {
 public:
-	LifeMeterBar( PlayerNumber pn );
+	LifeMeterBar(PlayerNumber pn);
 	~LifeMeterBar();
 
 	virtual void Load( const PlayerState *pPlayerState, PlayerStageStats *pPlayerStageStats );
@@ -29,10 +29,21 @@ public:
 	virtual bool IsHot() const;
 	virtual bool IsFailing() const;
 	virtual float GetLife() const { return m_fLifePercentage; }
+	virtual double CalculatePenalty(int X);
 
 	void UpdateNonstopLifebar();
-	void FillForHowToPlay(int NumT2s, int NumMisses);
 	// this function is solely for HowToPlay
+	void FillForHowToPlay(int NumT2s, int NumMisses);
+
+	/** @brief Current Flare Gauge active in Floating Flare mode. */
+	int 		currFloatingFlareIndex = 9;
+
+	vector<double> recentMultipliers;
+
+	void ResetPerformanceAdjustments() {
+		recentMultipliers.clear();
+	}
+
 
 private:
 	ThemeMetric<float> DANGER_THRESHOLD;
@@ -62,10 +73,11 @@ private:
 	int			m_iProgressiveLifebar;		// cached from prefs
 	/** @brief The current number of progressive miss rankings. */
 	int			m_iMissCombo;
+
+	/** @brief The current number of non-miss judgments. */
+	int			m_iCombo;
 	/** @brief The combo needed before the life bar starts to fill up after a Player failed. */
 	int			m_iComboToRegainLife;
-	/** @brief Current Flare Gauge active in Floating Flare mode. */
-	int 		currFloatingFlareIndex = 9;
 
     /** @brief Penalty values for Marvelous judgments */
 	float 		FlareJudgmentsW1[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};

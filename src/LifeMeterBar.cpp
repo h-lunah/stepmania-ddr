@@ -16,10 +16,65 @@
 #include "Steps.h"
 #include "Course.h"
 
+#include <vector>
+#include <numeric>
+
 static RString LIFE_PERCENT_CHANGE_NAME( size_t i )   { return "LifePercentChange" + ScoreEventToString( (ScoreEvent)i ); }
+
+
+// @brief DDR life penalty scalar function
+double LifeMeterBar::CalculatePenalty(int X) {
+	constexpr int beginnerComboThreshold = 8;       // How many misses before the penalties are increased?
+	constexpr double beginnerLow = 0.2;              // Lowest lenient penalty multiplier
+	constexpr double beginnerHigh = 1.0;             // Highest lenient penalty multiplier
+	constexpr double maxMultiplier = 3.0;            // Highest penalty multiplier
+	constexpr int consistentPenaltyMultiplier = 3.0; // Consistent performance penalty multiplier
+
+	// Calculate on at least 1 comboed note
+	if (X <= 0) {
+		X = 1;
+	}
+
+	// Declare overrideable values
+	double ret;
+	double averagePenalty;
+
+	// Determine player performance for scaling
+	if (recentMultipliers.size() > 0) { // Don't divide by 0
+		averagePenalty = accumulate(recentMultipliers.begin(), recentMultipliers.end(), 0.0) / recentMultipliers.size();
+	}
+	else {
+		averagePenalty = 0;
+	}
+
+	// Snap current combo to keep a consistent difficulty
+	if (averagePenalty < 0.5 && averagePenalty != 0) {
+		X = abs(beginnerComboThreshold / consistentPenaltyMultiplier) + 1; // Consistent bad performance
+	}
+	else if (averagePenalty >= 1 && averagePenalty != 0) {
+		X = abs(beginnerComboThreshold * consistentPenaltyMultiplier) + 1; // Consistent good performance
+	}
+
+	// Player is not keeping a combo
+	if (X <= beginnerComboThreshold) {
+		ret = beginnerLow + (beginnerHigh - beginnerLow) * (static_cast<double>(X) / beginnerComboThreshold);
+	}
+	// Player is doing well
+	else {
+		double scaledX = static_cast<double>(X - beginnerComboThreshold) / (maxMultiplier - beginnerHigh);
+		ret = beginnerHigh + (maxMultiplier - beginnerHigh) * std::min(scaledX, 1.0); // Don't make life difficulty absurd
+	}
+
+	// Ensure performance can be determined on consecutive calls
+	recentMultipliers.push_back(ret);
+	return ret;
+}
 
 LifeMeterBar::LifeMeterBar( PlayerNumber pn )
 {
+	// Performance should be reset upon loading a lifebar
+	ResetPerformanceAdjustments();
+	
 	DANGER_THRESHOLD.Load	("LifeMeterBar","DangerThreshold");
 	INITIAL_VALUE.Load	("LifeMeterBar","InitialValue");
 	HOT_VALUE.Load		("LifeMeterBar","HotValue");
@@ -31,8 +86,8 @@ LifeMeterBar::LifeMeterBar( PlayerNumber pn )
 
 	m_pPlayerState = nullptr;
 
-	const RString sType = "LifeMeterBar";
 
+	const RString sType = "LifeMeterBar";
 
 	m_fPassingAlpha = 0;
 	m_fHotAlpha = 0;
@@ -43,6 +98,7 @@ LifeMeterBar::LifeMeterBar( PlayerNumber pn )
 	// set up progressive lifebar
 	m_iProgressiveLifebar = PREFSMAN->m_iProgressiveLifebar;
 	m_iMissCombo = 0;
+	m_iCombo = 0;
 
 	// set up combotoregainlife
 	m_iComboToRegainLife = 0;
@@ -144,6 +200,27 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 		case TNS_CheckpointHit:	fDeltaLife = m_fLifePercentChange.GetValue(SE_CheckpointHit);	break;
 		case TNS_CheckpointMiss:fDeltaLife = m_fLifePercentChange.GetValue(SE_CheckpointMiss);	break;
 		}
+
+		if (fDeltaLife >= 0) {
+			m_iCombo += 1;
+			m_iMissCombo = 0;
+			if (m_iCombo > 10)
+				double _ = CalculatePenalty(min(m_iCombo, 30));  // XXX: unused when called with TNS_W4 or better, but allows the vector to grow
+		}
+		else {
+			if (m_iCombo <= 8) {
+				m_iCombo = 0;
+			}
+			else {
+				m_iCombo -= 1;
+			}
+			m_iMissCombo += 1;
+			// Scale based on performance
+			fDeltaLife *= CalculatePenalty(min(m_iCombo, 30));
+			// Punish more for consecutive misses
+			fDeltaLife *= min((1 + (m_iMissCombo * 0.2)), 3);
+		}
+
 		break;
 	case DrainType_Class:
 		switch (score)
@@ -159,7 +236,14 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 		case TNS_CheckpointHit:	fDeltaLife = m_fLifePercentChange.GetValue(SE_CheckpointHit);	break;
 		case TNS_CheckpointMiss:fDeltaLife = m_fLifePercentChange.GetValue(SE_CheckpointMiss);	break;
 		}
-		fDeltaLife*=0.5f; break;
+
+		if ( fDeltaLife < 0 ) {
+			m_iMissCombo += 1;
+		} else {
+			m_iMissCombo = 0;
+		}
+		fDeltaLife *= 0.5f;
+		fDeltaLife *= min((1 + (m_iMissCombo * 0.2)), 3);
 	case DrainType_Flare1:
 		switch(score)
 		{
@@ -459,6 +543,26 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
 		}
 		if(PREFSMAN->m_HarshHotLifePenalty && IsHot()  &&  score == HNS_LetGo)
 			fDeltaLife = -0.10f;		// make it take a while to get back to "hot"
+
+		if (fDeltaLife >= 0) {
+			m_iCombo += 1;
+			m_iMissCombo = 0;
+			if ( m_iCombo > 10 )
+				double _ = CalculatePenalty(min(m_iCombo, 30));  // XXX: unused when called with TNS_W4 or better, but allows the vector to grow
+		}
+		else {
+			if (m_iCombo <= 8) {
+				m_iCombo = 0;
+			}
+			else {
+				m_iCombo -= 1;
+			}
+			// Scale based on performance
+			fDeltaLife *= CalculatePenalty(min(m_iCombo, 30));
+			// Punish more for consecutive misses
+			fDeltaLife *= min((1 + (m_iMissCombo * 0.2)), 3);
+		}
+
 		break;
 	case DrainType_Class:
 		switch( score )
@@ -469,7 +573,13 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
         default:
 			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
 		}
-	    fDeltaLife *= 0.5f;
+		if ( fDeltaLife < 0 ) {
+			m_iMissCombo += 1;
+		} else {
+			m_iMissCombo = 0;
+		}
+	    fDeltaLife *= 0.5f;                                               
+	    fDeltaLife *= min((1 + (m_iMissCombo * 0.2)), 3);
 	    break;
 	case DrainType_Flare1:
 		switch(score)
@@ -665,9 +775,7 @@ void LifeMeterBar::ChangeLife( float fDeltaLife )
 		m_iMissCombo++;
 		/* Increase by m_iRegenComboAfterMiss; never push it beyond m_iMaxRegenComboAfterMiss
 		 * but don't reduce it if it's already past. */
-		const int NewComboToRegainLife = min(
-			 (int)PREFSMAN->m_iMaxRegenComboAfterMiss,
-			 m_iComboToRegainLife + PREFSMAN->m_iRegenComboAfterMiss );
+		const int NewComboToRegainLife = 0;
 
 		m_iComboToRegainLife = max( m_iComboToRegainLife, NewComboToRegainLife );
 	}

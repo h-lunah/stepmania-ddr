@@ -163,10 +163,19 @@ void LifeMeterBattery::ChangeLife( TapNoteScore score )
 	}
 	else
 	{
-		if( score < MIN_SCORE_TO_KEEP_LIFE && score > TNS_CheckpointMiss && SUBTRACT_LIVES > 0 )
+		if( GAMESTATE->IsExtraStage2() )
 		{
-			SubtractLives(SUBTRACT_LIVES);
-			bSubtract = true;
+			// ATTACK PERFECT FULL COMBO
+			if ( score < TNS_W2 && score > TNS_CheckpointMiss && SUBTRACT_LIVES > 0 ) {
+				SubtractLives(SUBTRACT_LIVES);
+				bSubtract = true;
+			}
+		} else {
+			if( score < MIN_SCORE_TO_KEEP_LIFE && score > TNS_CheckpointMiss && SUBTRACT_LIVES > 0 )
+			{
+				SubtractLives(SUBTRACT_LIVES);
+				bSubtract = true;
+			}
 		}
 	}
 	BroadcastLifeChanged(bSubtract);
