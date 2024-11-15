@@ -1995,11 +1995,11 @@ FailType GameState::GetPlayerFailType( const PlayerState *pPlayerState ) const
     LifeType lt = pPlayerState->m_PlayerOptions.GetCurrent().m_LifeType;
 
 	// Don't fail in event mode when using normal gauge types
-	if ( PREFSMAN->m_bEventMode && dt == DrainType_Normal && lt == LifeType_Bar )
+	if ( IsEventMode() && dt == DrainType_Normal && lt == LifeType_Bar )
 		return FailType_Off;
 
 	// LIFE4 and RISKY mean an immediate failure when no lives are left.
-	if (lt == LifeType_Bar)
+	if ( lt == LifeType_Battery )
 		return FailType_Immediate;
 
 	// If the player changed the fail mode explicitly, leave it alone.
@@ -2014,26 +2014,26 @@ FailType GameState::GetPlayerFailType( const PlayerState *pPlayerState ) const
 	else
 	{
 		Difficulty dc = Difficulty_Invalid;
-		if (m_pCurSteps[pn])
+		if ( m_pCurSteps[pn] )
 			dc = m_pCurSteps[pn]->GetDifficulty();
 
 		bool bFirstStage = false;
-		if (!IsEventMode())
+		if ( !IsEventMode() )
 			bFirstStage |= m_iPlayerStageTokens[pPlayerState->m_PlayerNumber] == PREFSMAN->m_iSongsPerPlay - 1; // HACK; -1 because this is called during gameplay
 
 		// Easy and beginner are never harder than FAIL_IMMEDIATE_CONTINUE.
-		else if (dc <= Difficulty_Easy)
+		else if ( dc <= Difficulty_Easy )
 			setmax(ft, FailType_ImmediateContinue);
 
-		else if (dc <= Difficulty_Easy && bFirstStage && PREFSMAN->m_bFailOffForFirstStageEasy)
+		else if ( dc <= Difficulty_Easy && bFirstStage && PREFSMAN->m_bFailOffForFirstStageEasy )
 			setmax(ft, FailType_Off);
 
 		/* If beginner's steps were chosen, and this is the first stage,
 		 * turn off failure completely. */
-		else if (dc == Difficulty_Beginner && bFirstStage)
+		else if ( dc == Difficulty_Beginner && bFirstStage )
 			setmax(ft, FailType_Off);
 
-		else if (dc == Difficulty_Beginner && PREFSMAN->m_bFailOffInBeginner)
+		else if ( dc == Difficulty_Beginner && PREFSMAN->m_bFailOffInBeginner )
 			setmax(ft, FailType_Off);
 
 		/* Dance Dance Revolution allows the player to keep playing after failure. */

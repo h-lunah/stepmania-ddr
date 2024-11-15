@@ -237,11 +237,13 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 		case TNS_CheckpointMiss:fDeltaLife = m_fLifePercentChange.GetValue(SE_CheckpointMiss);	break;
 		}
 
+        // Count misses and scale penalties up
 		if ( fDeltaLife < 0 ) {
 			m_iMissCombo += 1;
 		} else {
 			m_iMissCombo = 0;
 		}
+		// Dan is an endurance course, halve the deltas
 		fDeltaLife *= 0.5f;
 		fDeltaLife *= min((1 + (m_iMissCombo * 0.2)), 3);
 	case DrainType_Flare1:
@@ -573,11 +575,13 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
         default:
 			FAIL_M(ssprintf("Invalid HoldNoteScore: %i", score));
 		}
+		// Count misses and scale penalties up
 		if ( fDeltaLife < 0 ) {
 			m_iMissCombo += 1;
 		} else {
 			m_iMissCombo = 0;
 		}
+		// Dan is an endurance course, halve the deltas
 	    fDeltaLife *= 0.5f;                                               
 	    fDeltaLife *= min((1 + (m_iMissCombo * 0.2)), 3);
 	    break;
