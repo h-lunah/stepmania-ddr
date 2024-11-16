@@ -16,6 +16,8 @@ Target DDR version: DDR A20 or later
   - FLOATING FLARE (DDR WORLD)
 - Independent Lifebar States (players won't have conflicting states)
 - Arcade Failing Behavior (can't fail in Event Mode)
+- Arcade Danger Thresholds
+  - Danger has been separates into two ranges to allow announcer to give his normal responses until you're actually low on health.
 
 ## Installation
 ### From Packages
