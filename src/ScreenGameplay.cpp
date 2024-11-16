@@ -1737,6 +1737,9 @@ void ScreenGameplay::Update( float fDeltaTime )
 		{
 			hs = HealthState_Hot;
 		}
+		else if (pi->m_pLifeMeter && !pi->m_pLifeMeter->IsInDanger() && pi->m_pLifeMeter->DangerShouldComment()) {
+			hs = HealthState_DangerNoComment;
+		}
 		else if( pi->m_pLifeMeter && pi->m_pLifeMeter->IsInDanger() )
 		{
 			hs = HealthState_Danger;

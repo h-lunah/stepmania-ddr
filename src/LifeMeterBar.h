@@ -26,6 +26,7 @@ public:
 	virtual void HandleTapScoreNone();
 	virtual void AfterLifeChanged();
 	virtual bool IsInDanger() const;
+	virtual bool DangerShouldComment() const;
 	virtual bool IsHot() const;
 	virtual bool IsFailing() const;
 	virtual float GetLife() const { return m_fLifePercentage; }
@@ -47,6 +48,7 @@ public:
 
 private:
 	ThemeMetric<float> DANGER_THRESHOLD;
+	ThemeMetric<float> DANGER_THRESHOLD_NO_COMMENT;
 	ThemeMetric<float> INITIAL_VALUE;
 	ThemeMetric<float> HOT_VALUE;
 	ThemeMetric<float> LIFE_MULTIPLIER;

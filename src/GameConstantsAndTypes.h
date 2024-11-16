@@ -402,6 +402,7 @@ enum HealthState
 {
 	HealthState_Hot, /**< The health bar is very full. */
 	HealthState_Alive, /**< The health bar is at a decent size. */
+	HealthState_DangerNoComment, /**<The health bar is about to run out, but don't trigger Danger comments */
 	HealthState_Danger, /**< The health bar is about to run out. */
 	HealthState_Dead, /**< The health bar is drained completely. */
 	NUM_HealthState,

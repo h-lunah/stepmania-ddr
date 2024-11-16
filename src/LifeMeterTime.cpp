@@ -212,6 +212,10 @@ bool LifeMeterTime::IsInDanger() const
 	return m_pStream->GetPercent() < DANGER_THRESHOLD;
 }
 
+bool LifeMeterTime::DangerShouldComment() const {
+	return true;
+}
+
 bool LifeMeterTime::IsHot() const
 {
 	return false;
@@ -237,6 +241,8 @@ void LifeMeterTime::Update( float fDeltaTime )
 
 	if( m_pPlayerState->m_HealthState == HealthState_Danger )
 		m_quadDangerGlow.SetDiffuseAlpha( 1 );
+	if (m_pPlayerState->m_HealthState == HealthState_DangerNoComment)
+		m_quadDangerGlow.SetDiffuseAlpha(1);
 	else
 		m_quadDangerGlow.SetDiffuseAlpha( 0 );
 }

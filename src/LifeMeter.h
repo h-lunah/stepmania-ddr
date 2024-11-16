@@ -38,6 +38,7 @@ public:
 	virtual void SetLife(float value) = 0;
 	virtual void HandleTapScoreNone() = 0;
 	virtual bool IsInDanger() const = 0;
+	virtual bool DangerShouldComment() const = 0;
 	virtual bool IsHot() const = 0;
 	virtual bool IsFailing() const = 0;
 	virtual float GetLife() const { return 0; } // for cosmetic use only

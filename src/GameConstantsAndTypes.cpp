@@ -120,6 +120,7 @@ LuaXType( PlayerController );
 static const char *HealthStateNames[] = {
 	"Hot",
 	"Alive",
+	"Danger_NoComment",
 	"Danger",
 	"Dead",
 };

@@ -229,6 +229,10 @@ bool LifeMeterBattery::IsInDanger() const
 	return m_iLivesLeft < DANGER_THRESHOLD;
 }
 
+bool LifeMeterBattery::DangerShouldComment() const {
+	return true;
+}
+
 bool LifeMeterBattery::IsHot() const
 {
 	return m_iLivesLeft == m_pPlayerState->m_PlayerOptions.GetSong().m_BatteryLives;

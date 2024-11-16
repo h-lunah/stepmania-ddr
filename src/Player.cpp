@@ -104,29 +104,28 @@ static const float StepSearchDistance = 1.0f;
 
 void TimingWindowSecondsInit( size_t /*TimingWindow*/ i, RString &sNameOut, float &defaultValueOut )
 {
-	sNameOut = "TimingWindowSeconds" + TimingWindowToString( (TimingWindow)i );
 	switch( i )
 	{
 		case TW_W1:
-			defaultValueOut = 0.0225f;
+			defaultValueOut = 0.0167f;
 			break;
 		case TW_W2:
-			defaultValueOut = 0.045f;
+			defaultValueOut = 0.0333f;
 			break;
 		case TW_W3:
-			defaultValueOut = 0.090f;
+			defaultValueOut = 0.0920f;
 			break;
 		case TW_W4:
-			defaultValueOut = 0.135f;
+			defaultValueOut = 0.1420f;
 			break;
 		case TW_Mine: // same as great
-			defaultValueOut = 0.090f;
+			defaultValueOut = 0.0920f;
 			break;
 		case TW_Hold: // allow enough time to take foot off and put back on
-			defaultValueOut = 0.250f;
+			defaultValueOut = 0.333f;  // 20 frames @30fps
 			break;
 		case TW_Roll:
-			defaultValueOut = 0.500f;
+			defaultValueOut = 0.333f;
 			break;
 		case TW_Attack:
 			defaultValueOut = 0.135f;
@@ -1310,6 +1309,14 @@ void Player::UpdateHoldNotes( int iSongRow, float fDeltaTime, vector<TrackRowTap
 				TimingWindow window = m_bTickHolds ? TW_Checkpoint : TW_Hold;
 				//LOG->Trace("fLife before minus: %f",fLife);
 				fLife -= fDeltaTime / GetWindowSeconds(window);
+				/* NOT READY
+				fLife -= fDeltaTime / ( GetWindowSeconds(window) / 4);
+				if (fLife < 0.1f) {
+					fLife = 0.1f;
+					// must sleep for remaining time here
+					fLife = 0.0f;
+				}
+				*/
 				//LOG->Trace("fLife before clamp: %f",fLife);
 				fLife = max(0, fLife);
 				//LOG->Trace("fLife after: %f",fLife);

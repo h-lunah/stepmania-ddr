@@ -27,7 +27,7 @@ double LifeMeterBar::CalculatePenalty(int X) {
 	constexpr int beginnerComboThreshold = 8;       // How many misses before the penalties are increased?
 	constexpr double beginnerLow = 0.2;              // Lowest lenient penalty multiplier
 	constexpr double beginnerHigh = 1.0;             // Highest lenient penalty multiplier
-	constexpr double maxMultiplier = 3.0;            // Highest penalty multiplier
+	constexpr double maxMultiplier = 1.8;            // Highest penalty multiplier
 	constexpr int consistentPenaltyMultiplier = 3.0; // Consistent performance penalty multiplier
 
 	// Calculate on at least 1 comboed note
@@ -76,6 +76,7 @@ LifeMeterBar::LifeMeterBar( PlayerNumber pn )
 	ResetPerformanceAdjustments();
 	
 	DANGER_THRESHOLD.Load	("LifeMeterBar","DangerThreshold");
+	DANGER_THRESHOLD_NO_COMMENT.Load("LifeMeterBar", "DangerThresholdNoComment");
 	INITIAL_VALUE.Load	("LifeMeterBar","InitialValue");
 	HOT_VALUE.Load		("LifeMeterBar","HotValue");
 	LIFE_MULTIPLIER.Load	( "LifeMeterBar","LifeMultiplier");
@@ -92,7 +93,8 @@ LifeMeterBar::LifeMeterBar( PlayerNumber pn )
 	m_fPassingAlpha = 0;
 	m_fHotAlpha = 0;
 
-	m_fBaseLifeDifficulty = PREFSMAN->m_fLifeDifficultyScale;
+	// DDR like difficulty
+	m_fBaseLifeDifficulty = 1.3f;
 	m_fLifeDifficulty = m_fBaseLifeDifficulty;
 
 	// set up progressive lifebar
@@ -212,7 +214,7 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 				m_iCombo = 0;
 			}
 			else {
-				m_iCombo -= 1;
+				m_iCombo /= 2;
 			}
 			m_iMissCombo += 1;
 			// Scale based on performance
@@ -557,7 +559,7 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
 				m_iCombo = 0;
 			}
 			else {
-				m_iCombo -= 1;
+				m_iCombo /= 2;
 			}
 			// Scale based on performance
 			fDeltaLife *= CalculatePenalty(min(m_iCombo, 30));
@@ -887,6 +889,21 @@ bool LifeMeterBar::IsInDanger() const
 	}
 }
 
+/* @brief Shows Danger state but doesn't give Danger comments */
+bool LifeMeterBar::DangerShouldComment() const {
+	if (m_pPlayerState->m_PlayerOptions.GetCurrent().m_DrainType == DrainType_FloatingFlare && currFloatingFlareIndex == 0) {
+		return m_fLifePercentage > DANGER_THRESHOLD && m_fLifePercentage < DANGER_THRESHOLD_NO_COMMENT;
+	}
+	// Danger should not be visible when Floating Flare is not FLARE I
+	else if (m_pPlayerState->m_PlayerOptions.GetCurrent().m_DrainType == DrainType_FloatingFlare && currFloatingFlareIndex > 0) {
+		return false;
+	}
+	// Show danger for normal gauges
+	else {
+		return m_fLifePercentage > DANGER_THRESHOLD && m_fLifePercentage < DANGER_THRESHOLD_NO_COMMENT;
+	}
+}
+
 bool LifeMeterBar::IsFailing() const
 {
 	return m_fLifePercentage <= m_pPlayerState->m_PlayerOptions.GetCurrent().m_fPassmark;
@@ -907,7 +924,9 @@ void LifeMeterBar::Update( float fDeltaTime )
 	m_pStream->SetHotAlpha( m_fHotAlpha );
 
 	if( m_pPlayerState->m_HealthState == HealthState_Danger && m_fLifePercentage != 0 )
-		m_sprDanger->SetVisible( true );
+		m_sprDanger->SetVisible ( true );
+	if (m_pPlayerState->m_HealthState == HealthState_DangerNoComment && m_fLifePercentage != 0)
+		m_sprDanger->SetVisible ( true );
 	else
 		m_sprDanger->SetVisible( false );
 }
