@@ -42,6 +42,10 @@
 #include "LocalizedString.h"
 #include "AdjustSync.h"
 
+#include <future>
+#include <thread>
+
+
 RString ATTACK_DISPLAY_X_NAME( size_t p, size_t both_sides );
 void TimingWindowSecondsInit( size_t /*TimingWindow*/ i, RString &sNameOut, float &defaultValueOut );
 
@@ -122,7 +126,7 @@ void TimingWindowSecondsInit( size_t /*TimingWindow*/ i, RString &sNameOut, floa
 			defaultValueOut = 0.0920f;
 			break;
 		case TW_Hold: // allow enough time to take foot off and put back on
-			defaultValueOut = 0.333f;  // 20 frames @30fps
+			defaultValueOut = 0.2f;
 			break;
 		case TW_Roll:
 			defaultValueOut = 0.333f;
@@ -1308,15 +1312,14 @@ void Player::UpdateHoldNotes( int iSongRow, float fDeltaTime, vector<TrackRowTap
 
 				TimingWindow window = m_bTickHolds ? TW_Checkpoint : TW_Hold;
 				//LOG->Trace("fLife before minus: %f",fLife);
-				fLife -= fDeltaTime / GetWindowSeconds(window);
-				/* NOT READY
-				fLife -= fDeltaTime / ( GetWindowSeconds(window) / 4);
-				if (fLife < 0.1f) {
-					fLife = 0.1f;
-					// must sleep for remaining time here
-					fLife = 0.0f;
+
+				// should be approximately 18 frames @60fps
+				if (fLife > 0.24f) {
+					fLife = 0.24f;
 				}
-				*/
+
+				fLife -= 0.004f;
+
 				//LOG->Trace("fLife before clamp: %f",fLife);
 				fLife = max(0, fLife);
 				//LOG->Trace("fLife after: %f",fLife);
