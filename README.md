@@ -18,6 +18,11 @@ Target DDR version: DDR A20 or later
 - Arcade Failing Behavior (can't fail in Event Mode)
 - Arcade Danger Thresholds
   - Danger has been separated into two ranges to allow announcer to give his normal responses until you're actually low on health.
+- Arcade Accurate Freeze Arrows
+  - The gradual darkening animation has been replaced with a DDR accurate darkening animation.
+ 
+## TODO
+[ ] Handle O.K. judgments for freeze arrow jumps (Please PR an implementation!)
 
 ## Installation
 ### From Packages
