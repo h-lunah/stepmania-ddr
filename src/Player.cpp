@@ -42,9 +42,6 @@
 #include "LocalizedString.h"
 #include "AdjustSync.h"
 
-#include <future>
-#include <thread>
-
 
 RString ATTACK_DISPLAY_X_NAME( size_t p, size_t both_sides );
 void TimingWindowSecondsInit( size_t /*TimingWindow*/ i, RString &sNameOut, float &defaultValueOut );
