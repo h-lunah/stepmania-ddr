@@ -20,9 +20,11 @@ Target DDR version: DDR A20 or later
   - Danger has been separated into two ranges to allow announcer to give his normal responses until you're actually low on health.
 - Arcade Accurate Freeze Arrows
   - The gradual darkening animation has been replaced with a DDR accurate darkening animation.
+- Arcade Accurate Shock Arrows
+  - Groups of Shock Arrows (4 or 8) will be counted as 1 combo.
  
 ## TODO
-[ ] Handle O.K. judgments for freeze arrow jumps (Please PR an implementation!)
+- [ ] Handle O.K. judgments for freeze arrow jumps (Please PR an implementation!)
 
 ## Installation
 ### From Packages
