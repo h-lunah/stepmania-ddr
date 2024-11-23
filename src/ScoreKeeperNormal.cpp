@@ -157,7 +157,7 @@ void ScoreKeeperNormal::OnNextSong( int iSongInCourseIndex, const Steps* pSteps,
 			const int courseMult = (numSongsInCourse * (numSongsInCourse + 1)) / 2;
 			ASSERT(courseMult >= 0);
 
-			m_iMaxPossiblePoints = (100000000 * (iIndex+1)) / courseMult;
+			m_iMaxPossiblePoints = (1000000 * (iIndex+1)) / courseMult;
 		}
 		else
 		{
@@ -166,7 +166,7 @@ void ScoreKeeperNormal::OnNextSong( int iSongInCourseIndex, const Steps* pSteps,
 			 * is too much of a difference.
 			 *
 			 * With this, each song in a 50-song course will be worth 2mil. */
-			m_iMaxPossiblePoints = 100000000 / numSongsInCourse;
+			m_iMaxPossiblePoints = 1000000 / numSongsInCourse;
 		}
 	}
 	else
@@ -176,7 +176,7 @@ void ScoreKeeperNormal::OnNextSong( int iSongInCourseIndex, const Steps* pSteps,
 		
 		/* This is no longer just simple additive/subtractive scoring,
 		 * but start with capping the score at the size of the score counter. */
-		m_iMaxPossiblePoints = 10 * 10000000 * iLengthMultiplier;
+		m_iMaxPossiblePoints = 10 * 1000000 * iLengthMultiplier;
 	}
 	ASSERT( m_iMaxPossiblePoints >= 0 );
 	m_iMaxScoreSoFar += m_iMaxPossiblePoints;
@@ -261,7 +261,6 @@ void ScoreKeeperNormal::AddScoreInternal( TapNoteScore score )
 {
 	if( m_UseInternalScoring )
 	{
-		
 		unsigned int &iScore = m_pPlayerStageStats->m_iScore;
 		unsigned int &iCurMaxScore = m_pPlayerStageStats->m_iCurMaxScore;
 
@@ -312,8 +311,8 @@ void ScoreKeeperNormal::AddScoreInternal( TapNoteScore score )
 				iScore += m_iPointBonus;
 			if ( m_bIsLastSongInCourse )
 			{
-				iScore += 100000000 - m_iMaxScoreSoFar;
-				iCurMaxScore += 100000000 - m_iMaxScoreSoFar;
+				iScore += 1000000 - m_iMaxScoreSoFar;
+				iCurMaxScore += 1000000 - m_iMaxScoreSoFar;
 
 				/* If we're in Endless mode, we'll come around here again, so reset
 				* the bonus counter. */
