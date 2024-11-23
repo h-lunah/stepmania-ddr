@@ -112,6 +112,7 @@ void ScoreKeeperNormal::Load(
 	m_iNumTapsAndHolds = 0;
 	m_iNumNotesHitThisRow = 0;
 	m_bIsLastSongInCourse = false;
+	m_iMinesJudged = 0;
 
 	Message msg( "ScoreChanged" );
 	msg.SetParam( "PlayerNumber", m_pPlayerState->m_PlayerNumber );
@@ -401,9 +402,29 @@ void ScoreKeeperNormal::HandleTapScore( const TapNote &tn )
 				HandleComboInternal( 0, 0, 1 );
 			
 		}
-		
-		if( tns == TNS_AvoidMine && m_AvoidMineIncrementsCombo )
-			HandleComboInternal( 1, 0, 0 );
+
+		// count mine groups (shock arrows) like DDR
+		if( tns == TNS_AvoidMine && m_AvoidMineIncrementsCombo ) {
+			int countEvery = 4;
+			bool countHalves = false;
+
+			if (GAMESTATE->GetCurrentStyle(m_pPlayerState->m_PlayerNumber)->m_StyleType == StyleType_OnePlayerTwoSides) {
+				countEvery = 8;
+				countHalves = true;
+			}
+
+		    if (m_iMinesJudged == countEvery && !countHalves) {
+				HandleComboInternal( 1, 0, 0 );
+				m_iMinesJudged = 0;
+			} else if (m_iMinesJudged >= countEvery / 2 && countHalves) {
+				if (m_iMinesJudged == countEvery / 2)
+					HandleComboInternal(1, 0, 0);
+				if (m_iMinesJudged == countEvery)
+					m_iMinesJudged = 0;
+		    }
+
+		    m_iMinesJudged += 1;
+		}
 
 		NSMAN->ReportScore(
 			m_pPlayerState->m_PlayerNumber,
