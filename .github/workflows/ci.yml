@@ -7,7 +7,7 @@ jobs:
     name: "Ubuntu: Build with bundled libraries"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y
           libasound2-dev
@@ -34,7 +34,7 @@ jobs:
     name: "Ubuntu: Build with system libraries"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y
           libasound2-dev
@@ -79,7 +79,7 @@ jobs:
     name: "macOS: Build with bundled libraries"
     runs-on: macos-13
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install dependencies
         run: brew install
           nasm
@@ -92,7 +92,7 @@ jobs:
     name: "Windows: Build with bundled libraries"
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Configure
         run: cmake -B build
       - name: Build
