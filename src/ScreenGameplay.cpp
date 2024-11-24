@@ -3000,15 +3000,15 @@ void ScreenGameplay::HandleScreenMessage( const ScreenMessage SM )
 		int iCombo;
 		RString sCropped = ScreenMessageHelpers::ScreenMessageToString(SM).substr(3);
 		sscanf(sCropped.c_str(),"%d%*s",&iCombo);
-		PlayAnnouncer( ssprintf("gameplay %d combo",iCombo), 2 );
+		PlayAnnouncer( ssprintf("gameplay %d combo",iCombo), 0.1 );
 	}
 	else if( SM == SM_ComboStopped )
 	{
-		PlayAnnouncer( "gameplay combo stopped", 2 );
+		PlayAnnouncer( "gameplay combo stopped", 0.1 );
 	}
 	else if( SM == SM_ComboContinuing )
 	{
-		PlayAnnouncer( "gameplay combo overflow", 2 );
+		PlayAnnouncer( "gameplay combo overflow", 0.1 );
 	}
 	else if( SM >= SM_BattleTrickLevel1 && SM <= SM_BattleTrickLevel3 )
 	{
