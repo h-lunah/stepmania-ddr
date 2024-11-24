@@ -42,9 +42,9 @@ ver.cpp:
 	echo "const char *const version_time = \"`date +"%X %Z (UTC%:z)"`\";" >> ver.cpp
 	echo "const char *const version_date = \"`date +"%Y%m%d"`\";" >> ver.cpp
 	if git rev-parse --short HEAD; then \
-		echo "const char *const product_version = \"5.0-git-`git rev-parse --short HEAD`\";" >> ver.cpp; \
+		echo "const char *const product_version = \"5.1-git-`git rev-parse --short HEAD`\";" >> ver.cpp; \
 	else \
-		echo "const char *const product_version = \"5.0-UNKNOWN\";" >> ver.cpp; \
+		echo "const char *const product_version = \"5.1-UNKNOWN\";" >> ver.cpp; \
 	fi
 
 PNG = \

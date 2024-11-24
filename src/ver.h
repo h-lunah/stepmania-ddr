@@ -2,7 +2,7 @@
 #define STEPMANIA_VER_H
 
 #if !defined(CMAKE_POWERED) && ( defined(_MSC_VER) || defined(__MACOSX__) )
-#define product_version "5.0-UNKNOWN"
+#define product_version "5.1-UNKNOWN"
 #else
 extern char const * const product_version;
 #endif
