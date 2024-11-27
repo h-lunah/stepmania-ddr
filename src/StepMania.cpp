@@ -1305,7 +1305,7 @@ void StepMania::InsertCoin( int iNum, bool bCountInBookkeeping )
 		{
 			SCREENMAN->PlayCoinSound();
 		} else {
-			SCREENMAN->PlayInvalidSound();
+			SCREENMAN->PlayCoinSound();
 		}
 	}
 

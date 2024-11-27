@@ -18,7 +18,7 @@ const int MIN_METER = 1;
 const int MAX_METER = 35;
 
 /** @brief The maximum number of credits for coin mode. */
-const int MAX_NUM_CREDITS = 20;
+const int MAX_NUM_CREDITS = 99;
 
 
 /**
