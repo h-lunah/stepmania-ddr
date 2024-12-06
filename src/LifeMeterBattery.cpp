@@ -29,6 +29,7 @@ void LifeMeterBattery::Load( const PlayerState *pPlayerState, PlayerStageStats *
 	MIN_SCORE_TO_KEEP_LIFE.Load(sType, "MinScoreToKeepLife");
 	MAX_LIVES.Load(sType, "MaxLives");
 	DANGER_THRESHOLD.Load(sType, "DangerThreshold");
+	DANGER_THRESHOLD_NO_COMMENT.Load(sType, "DangerThresholdNoComment");
 	SUBTRACT_LIVES.Load(sType, "SubtractLives");
 	MINES_SUBTRACT_LIVES.Load(sType, "MinesSubtractLives");
 	HELD_ADD_LIVES.Load(sType, "HeldAddLives");
@@ -222,6 +223,7 @@ void LifeMeterBattery::HandleTapScoreNone()
 
 void LifeMeterBattery::ChangeLife( float fDeltaLifePercent )
 {
+    // do nothing
 }
 
 bool LifeMeterBattery::IsInDanger() const
@@ -230,7 +232,7 @@ bool LifeMeterBattery::IsInDanger() const
 }
 
 bool LifeMeterBattery::DangerShouldComment() const {
-	return true;
+	return m_iLivesLeft > DANGER_THRESHOLD && m_iLivesLeft < DANGER_THRESHOLD_NO_COMMENT;
 }
 
 bool LifeMeterBattery::IsHot() const
