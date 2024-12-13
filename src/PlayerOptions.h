@@ -42,6 +42,7 @@ enum DrainType
 	DrainType_Flare9,
 	DrainType_FlareEX,
 	DrainType_FloatingFlare,
+	DrainType_LetsCheckYourLevel,
 	NUM_DrainType,
 	DrainType_Invalid
 };

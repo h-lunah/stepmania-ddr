@@ -162,6 +162,7 @@ void LifeMeterBar::Load( const PlayerState *pPlayerState, PlayerStageStats *pPla
 		case DrainType_FloatingFlare:
 		case DrainType_NoRecover:
 		case DrainType_SuddenDeath:
+		case DrainType_LetsCheckYourLevel:
 			m_fLifePercentage = 1.0f;	break;
 		default:
 			FAIL_M(ssprintf("Invalid DrainType: %i", dtype));
@@ -515,6 +516,9 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 			}
 			break;
 		}
+	case DrainType_LetsCheckYourLevel:
+		fDeltaLife = 0;
+		break;
 	case DrainType_NoRecover:
 		fDeltaLife = min( fDeltaLife, 0 );
 		break;
@@ -733,6 +737,9 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
 			}
 			break;
 		}
+	case DrainType_LetsCheckYourLevel:
+		fDeltaLife = 0;
+		break;
 	case DrainType_NoRecover:
 		switch( score )
 		{
@@ -821,6 +828,9 @@ void LifeMeterBar::ChangeLife( float fDeltaLife )
 				fDeltaLife = fDeltaLife;
 			else
 				fDeltaLife = 0;
+			break;
+		case DrainType_LetsCheckYourLevel:
+			fDeltaLife = 0;
 			break;
 		case DrainType_NoRecover:
 			if( fDeltaLife > 0 )

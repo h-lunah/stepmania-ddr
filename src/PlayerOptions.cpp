@@ -35,7 +35,8 @@ static const char *DrainTypeNames[] = {
 	"Flare8",
 	"Flare9",
 	"FlareEX",
-	"FloatingFlare"
+	"FloatingFlare",
+	"LetsCheckYourLevel"
 };
 XToString( DrainType );
 XToLocalizedString( DrainType );
@@ -762,6 +763,7 @@ bool PlayerOptions::FromOneModString( const RString &sOneMod, RString &sErrorOut
 	else if( sBit == "flare-9" ) { m_DrainType = DrainType_Flare9; }
 	else if( sBit == "flare-ex" ) { m_DrainType = DrainType_FlareEX; }
 	else if( sBit == "floating-flare" ) { m_DrainType = DrainType_FloatingFlare; }
+	else if (sBit == "lets-check-your-level") { m_DrainType = DrainType_LetsCheckYourLevel;  }
 	else if( sBit == "boost" )				SET_FLOAT( fAccels[ACCEL_BOOST] )
 	else if( sBit == "brake" || sBit == "land" )		SET_FLOAT( fAccels[ACCEL_BRAKE] )
 	else if( sBit.find("wave") != sBit.npos)
