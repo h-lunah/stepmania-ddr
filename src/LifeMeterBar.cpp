@@ -249,6 +249,7 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 		// Dan is an endurance course, halve the deltas
 		fDeltaLife *= 0.5f;
 		fDeltaLife *= min((1 + (m_iMissCombo * 0.2)), 3);
+		break;
 	case DrainType_Flare1:
 		switch(score)
 		{

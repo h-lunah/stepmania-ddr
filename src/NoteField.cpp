@@ -25,7 +25,8 @@ float FindFirstDisplayedBeat( const PlayerState* pPlayerState, int iDrawDistance
 float FindLastDisplayedBeat( const PlayerState* pPlayerState, int iDrawDistanceBeforeTargetsPixels );
 
 static ThemeMetric<bool> SHOW_BOARD( "NoteField", "ShowBoard" );
-static ThemeMetric<bool> SHOW_BEAT_BARS( "NoteField", "ShowBeatBars" );
+static ThemeMetric<bool> SHOW_BEAT_BARS_P1( "NoteField", "ShowBeatBarsP1" );
+static ThemeMetric<bool> SHOW_BEAT_BARS_P2( "NoteField", "ShowBeatBarsP2" );
 static ThemeMetric<float> FADE_BEFORE_TARGETS_PERCENT( "NoteField", "FadeBeforeTargetsPercent" );
 static ThemeMetric<float> BAR_MEASURE_ALPHA( "NoteField", "BarMeasureAlpha" );
 static ThemeMetric<float> BAR_4TH_ALPHA( "NoteField", "Bar4thAlpha" );
@@ -796,7 +797,10 @@ void NoteField::DrawPrimitives()
 
 	unsigned i = 0;
 	// Draw beat bars
-	if( ( GAMESTATE->IsEditing() || SHOW_BEAT_BARS ) && pTiming != nullptr )
+	if( ( GAMESTATE->IsEditing() ||
+		( GAMESTATE->m_bSideIsJoined[PLAYER_1] && SHOW_BEAT_BARS_P1 ) ||
+		( GAMESTATE->m_bSideIsJoined[PLAYER_2] && SHOW_BEAT_BARS_P2 ) ) &&
+		pTiming != nullptr )
 	{
 		const vector<TimingSegment *> &tSigs = *segs[SEGMENT_TIME_SIG];
 		int iMeasureIndex = 0;
