@@ -232,6 +232,7 @@ public:
 	DEFINE_METHOD(GetCheckpointsMissed, iCheckpointsMissed );
 	DEFINE_METHOD(GetHeld, bHeld );
 	DEFINE_METHOD(GetActive, bActive );
+	DEFINE_METHOD(GetTrack, iLastHeldTrack);
 
 	LunaHoldNoteResult()
 	{
@@ -243,6 +244,7 @@ public:
 		ADD_METHOD( GetCheckpointsMissed );
 		ADD_METHOD( GetHeld );
 		ADD_METHOD( GetActive );
+		ADD_METHOD( GetTrack );
 	}
 };
 LUA_REGISTER_CLASS( HoldNoteResult )

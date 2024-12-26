@@ -62,6 +62,7 @@ struct HoldNoteResult
 	/** @brief Last index where fLife was greater than 0. If the tap was missed, this
 	 * will be the first index of the hold. */
 	int		iLastHeldRow;
+	int		iLastHeldTrack;
 
 	/** @brief If checkpoint holds are enabled, the number of checkpoints hit. */
 	int		iCheckpointsHit;
