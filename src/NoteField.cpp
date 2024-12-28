@@ -797,9 +797,10 @@ void NoteField::DrawPrimitives()
 
 	unsigned i = 0;
 	// Draw beat bars
+	PlayerNumber pn = m_pPlayerState->m_PlayerNumber;
 	if( ( GAMESTATE->IsEditing() ||
-		( GAMESTATE->m_bSideIsJoined[PLAYER_1] && SHOW_BEAT_BARS_P1 ) ||
-		( GAMESTATE->m_bSideIsJoined[PLAYER_2] && SHOW_BEAT_BARS_P2 ) ) &&
+		( pn == PLAYER_1 && SHOW_BEAT_BARS_P1 ) ||
+		( pn == PLAYER_2 && SHOW_BEAT_BARS_P2 ) ) &&
 		pTiming != nullptr )
 	{
 		const vector<TimingSegment *> &tSigs = *segs[SEGMENT_TIME_SIG];
