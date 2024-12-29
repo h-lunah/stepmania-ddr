@@ -31,19 +31,15 @@ void ScreenJukebox::SetSong()
 
 	vector<Song*> vSongs;
 
-	/* Check to see if there is a theme course. If there is a course that has
-	 * the exact same name as the theme, then we pick a song from this course. */
-	Course *pCourse = SONGMAN->GetCourseFromName( THEME->GetCurThemeName() );
-	if( pCourse != nullptr )
+	// Pick all songs from the DEMO course, return if it wasn't found.
+	Course *pCourse = SONGMAN->GetCourseFromName( "DEMO" );
+	if( pCourse != nullptr ) {
 		for ( unsigned i = 0; i < pCourse->m_vEntries.size(); i++ )
 			if( pCourse->m_vEntries[i].IsFixedSong() )
 				vSongs.push_back( pCourse->m_vEntries[i].songID.ToSong() );
-
-	if ( vSongs.size() == 0 )
-		vSongs = SONGMAN->GetSongs( GAMESTATE->m_sPreferredSongGroup );
-	// Still nothing?
-	if( vSongs.size() == 0 )
+	} else {
 		return;
+	}
 
 
 	// Calculate what difficulties to show
@@ -72,7 +68,8 @@ void ScreenJukebox::SetSong()
 	// Search for a Song and Steps to play during the demo.
 	for( int i=0; i<1000; i++ )
 	{
-		Song* pSong = vSongs[RandomInt(vSongs.size())];
+		int index = i % vSongs.size();
+		Song* pSong = vSongs[index];
 
 		ASSERT( pSong != nullptr );
 		if( !pSong->HasMusic() )
@@ -82,7 +79,7 @@ void ScreenJukebox::SetSong()
 		if( !pSong->ShowInDemonstrationAndRanking() )
 			continue;	// skip
 
-		Difficulty dc = vDifficultiesToShow[ RandomInt(vDifficultiesToShow.size()) ];
+		Difficulty dc = vDifficultiesToShow[0];
 		Steps* pSteps = SongUtil::GetStepsByDifficulty( pSong, GAMESTATE->GetCurrentStyle(PLAYER_INVALID)->m_StepsType, dc );
 
 		if( pSteps == nullptr )
