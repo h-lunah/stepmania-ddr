@@ -62,6 +62,8 @@ struct HoldNoteResult
 	/** @brief Last index where fLife was greater than 0. If the tap was missed, this
 	 * will be the first index of the hold. */
 	int		iLastHeldRow;
+	/** @brief The index of the recently judged hold note. This could be used in Lua to create custom
+	 * O.K. / N.G. handlers. */
 	int		iLastHeldTrack;
 
 	/** @brief If checkpoint holds are enabled, the number of checkpoints hit. */

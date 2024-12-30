@@ -66,10 +66,12 @@ void ScreenJukebox::SetSong()
 	ASSERT( !vDifficultiesToShow.empty() );
 
 	// Search for a Song and Steps to play during the demo.
+	static int lastIndex = -1;
+
 	for( int i=0; i<1000; i++ )
 	{
-		int index = i % vSongs.size();
-		Song* pSong = vSongs[index];
+		lastIndex = (lastIndex + 1) % vSongs.size();
+		Song* pSong = vSongs[lastIndex];
 
 		ASSERT( pSong != nullptr );
 		if( !pSong->HasMusic() )
@@ -252,7 +254,6 @@ bool ScreenJukebox::Input( const InputEventPlus &input )
 	{
 		case GAME_BUTTON_LEFT:
 		case GAME_BUTTON_RIGHT:
-			SCREENMAN->PostMessageToTopScreen( SM_NotesEnded, 0 );
 			return true;
 		default:
 			break;

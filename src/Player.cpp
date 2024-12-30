@@ -1268,7 +1268,7 @@ void Player::UpdateHoldNotes( int iSongRow, float fDeltaTime, vector<TrackRowTap
 
 			//LOG->Trace(ssprintf("trying for min between iSongRow (%i) and iEndRow (%i) (duration %i)",iSongRow,iEndRow,tn.iDuration));
 			tn.HoldResult.iLastHeldRow = min( iSongRow, iEndRow );
-			tn.HoldResult.iLastHeldTrack = trtn.iTrack;
+			tn.HoldResult.iLastHeldTrack = trtn.iTrack + 1;
 		}
 	}
 
@@ -2056,7 +2056,7 @@ void Player::Step( int col, int row, const RageTimer &tm, bool bHeld, bool bRele
 				 * iLastHeldRow is clamped to iEndRow if the hold note is held all the way. */
 				//LOG->Trace("setting iLastHeldRow to min of iSongRow (%i) and iEndRow (%i)",iSongRow,iEndRow);
 				tn.HoldResult.iLastHeldRow = min( iSongRow, iEndRow );
-				tn.HoldResult.iLastHeldTrack = col;
+				tn.HoldResult.iLastHeldTrack = col + 1;
 			}
 
 			// If the song beat is in the range of this hold:
@@ -2197,6 +2197,7 @@ void Player::Step( int col, int row, const RageTimer &tm, bool bHeld, bool bRele
 					m_Timing->IsJudgableAtRow(iSongRow)) {
 					score = TNS_HitMine;
 				}
+				// If we've missed the mine here, mark it as O.K.
 				else if (!bRelease && (REQUIRE_STEP_ON_MINES == !bHeld) &&
 					fSecondsFromExact > GetWindowSeconds(TW_Mine) &&
 					m_Timing->IsJudgableAtRow(iSongRow)) {
