@@ -517,6 +517,7 @@ void LifeMeterBar::ChangeLife( TapNoteScore score )
 			}
 			break;
 		}
+		break;
 	case DrainType_LetsCheckYourLevel:
 		fDeltaLife = 0;
 		break;
@@ -738,6 +739,7 @@ void LifeMeterBar::ChangeLife( HoldNoteScore score, TapNoteScore tscore )
 			}
 			break;
 		}
+		break;
 	case DrainType_LetsCheckYourLevel:
 		fDeltaLife = 0;
 		break;
@@ -802,10 +804,17 @@ void LifeMeterBar::ChangeLife( float fDeltaLife )
 	{
 		case DrainType_Normal:
 		case DrainType_Class:
-			if( fDeltaLife > 0 )
-				fDeltaLife *= m_fLifeDifficulty;
-			else
-				fDeltaLife /= m_fLifeDifficulty;
+			if (GetLife() == 0) {
+				fDeltaLife = 0;
+			}
+			else {
+				if (fDeltaLife > 0) {
+					fDeltaLife *= m_fLifeDifficulty;
+				}
+				else {
+					fDeltaLife /= m_fLifeDifficulty;
+				}
+			}
 			break;
 		case DrainType_Flare1:
 		case DrainType_Flare2:
